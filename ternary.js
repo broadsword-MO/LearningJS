@@ -31,9 +31,19 @@ function rec(n) {
 }
 console.log(rec(5)) // 15
 
-// ================== from Github Gist ===================
+// ================== from sidjayisaok on Github Gist ===================
 // A factorial recursive function using ternary operator
 var fact = function (m) {
     return ((m === 0) ? (1) : m * fact(m - 1));
 };
 console.log(fact(5)); // 120
+
+// And the same factorial recursive example without ternary
+var factorial = function(n) {
+    if(n === 0) {
+        return 1;
+    } else {
+        return n * factorial(n - 1);
+    }
+}
+console.log(factorial(5)); // 120

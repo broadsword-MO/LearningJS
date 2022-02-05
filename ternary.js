@@ -6,13 +6,13 @@
 function countup(n) {
     let countArray = [];
     return (n <= 1) ? []
-    : countArray = countup(n -1),
-    countArray.push(n),
-    countArray;
+        : countArray = countup(n - 1),
+        countArray.push(n),
+        countArray;
 }
 console.log(countup(6)); // [ 1, 2, 3, 4, 5, 6 ]
 
-
+// The same as this non-ternary recursive for comparison
 function countup(n) {
     if (n < 1) {
         return [];
@@ -25,7 +25,7 @@ function countup(n) {
 console.log(countup(6)); // [ 1, 2, 3, 4, 5, 6 ]
 
 // ================== from StackOverflow ===================
-// Addition downward one at a time
+// Recursion stacks the "rec" function call for "n": 5, 4, 3, 2, 1 and then adds them from the top: 1+2+3+4+5
 function rec(n) {
     return n == 1 ? n : n + rec(n - 1);
 }
@@ -39,11 +39,12 @@ var fact = function (m) {
 console.log(fact(5)); // 120
 
 // And the same factorial recursive example without ternary
-var factorial = function(n) {
-    if(n === 0) {
+var factorial = function (n) {
+    if (n === 0) {
         return 1;
     } else {
         return n * factorial(n - 1);
     }
 }
 console.log(factorial(5)); // 120
+

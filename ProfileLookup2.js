@@ -41,7 +41,10 @@ function lookUpProfile(name, prop) {
     return 'No such contact';
     // Only change code above this line
 }
-console.log(lookUpProfile("bob", "hates"));
+// Supply first name and property being searched for
+console.log(lookUpProfile("Akira", "owns")); // "No such property"
+console.log(lookUpProfile("sherlock", "number")); // "0487345643"
+console.log(lookUpProfile("bob", "hates")); // "No such contact"
 
 // fCC solutions
 // Solution 1

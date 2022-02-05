@@ -2,15 +2,15 @@
 // ----------------- Object destructuring assignment of function parameters ---------------------
 //    ????????????
 const profile = {
-  name: "John",
-  age: 34,
-  nationality: "American",
-  location: "Europe"
+    name: "John",
+    age: 34,
+    nationality: "American",
+    location: "Europe"
 }
 
 // --------- From fCC. Doesn't work as is.... -------------
 const profileUpdate = (profileData) => {
-  const { name, age, nationality, location } = profileData;
+    const { name, age, nationality, location } = profileData;
 }
 // ------ The same as -----------
 // --------- Neither does this... ------------
@@ -26,12 +26,12 @@ console.log(profileUpdate(profile));
 
 // ----------- Another -----------------
 const stats = {
-  max: 56.78,
-  standard_deviation: 4.34,
-  median: 34.54,
-  mode: 23.87,
-  min: -0.75,
-  average: 35.85
+    max: 56.78,
+    standard_deviation: 4.34,
+    median: 34.54,
+    mode: 23.87,
+    min: -0.75,
+    average: 35.85
 };
 
 // Only change code below this line
@@ -44,21 +44,21 @@ console.log(half(stats));
 
 // -------------------------
 const result = {
-  success: ["max-length", "no-amd", "prefer-arrow-functions"],
-  failure: ["no-var", "var-on-top", "linebreak"],
-  skipped: ["no-extra-semi", "no-dup-keys"]
+    success: ["max-length", "no-amd", "prefer-arrow-functions"],
+    failure: ["no-var", "var-on-top", "linebreak"],
+    skipped: ["no-extra-semi", "no-dup-keys"]
 };
 function makeList(arr) {
-  // Only change code below this line
-  const failureItems = [];
-  for (let i = 0; i < arr.length; i++) {
-    failureItems.push(`<li class="text-warning">${arr[i]}</li>`);
-    // the same as this one below which I don't know how .map works...
-    // const failureItems = arr.map(item => `<li class="text-warning">${item}</li>`);
-  }
-  // Only change code above this line
+    // Only change code below this line
+    const failureItems = [];
+    for (let i = 0; i < arr.length; i++) {
+        failureItems.push(`<li class="text-warning">${arr[i]}</li>`);
+        // the same as this one below which I don't know how .map works...
+        // const failureItems = arr.map(item => `<li class="text-warning">${item}</li>`);
+    }
+    // Only change code above this line
 
-  return failureItems;
+    return failureItems;
 }
 
 const failuresList = makeList(result.failure);
@@ -66,9 +66,9 @@ console.log(failuresList)
 
 // ------------------------
 const createPerson = (name, age, gender) => {
-  return {
-    name, age, gender
-  };
+    return {
+        name, age, gender
+    };
 };
 // Or simpler
 const createPerson = (name, age, gender) => ({ name, age, gender });
@@ -78,10 +78,10 @@ console.log(createPerson("Zodiac Hasbro", 56, "male")); // { name: 'Zodiac Hasbr
 
 // -------------------------------
 const bicycle = {
-  gear: 2,
-  setGear(newGear) {
-    this.gear = newGear;
-  }
+    gear: 2,
+    setGear(newGear) {
+        this.gear = newGear;
+    }
 };
 // Only change code above this line
 bicycle.setGear(3);
@@ -91,9 +91,9 @@ console.log(bicycle.gear);
 // ================== Class and constructor ===================
 // Only change code below this line
 class Vegetable {
-  constructor(name) {
-    this.name = name;
-  }
+    constructor(name) {
+        this.name = name;
+    }
 }
 // Only change code above this line
 
@@ -103,17 +103,17 @@ console.log(carrot.name); // Should display 'carrot'
 // ----------------- another --------------
 // Only change code below this line
 class Thermostat {
-  constructor(fahrTemp) {
-    this._fahrTemp = fahrTemp;
-  }
-  // getter
-  get temperature() {
-    return (this._fahrTemp - 32) * 5 / 9;
-  }
-  // setter
-  set temperature(celTemp) {
-    this._fahrTemp = celTemp * 9 / 5 + 32;
-  }
+    constructor(fahrTemp) {
+        this._fahrTemp = fahrTemp;
+    }
+    // getter
+    get temperature() {
+        return (this._fahrTemp - 32) * 5 / 9;
+    }
+    // setter
+    set temperature(celTemp) {
+        this._fahrTemp = celTemp * 9 / 5 + 32;
+    }
 }
 // Only change code above this line
 
@@ -128,19 +128,19 @@ console.log(temp);
 
 // ---------------------------------------------
 const makeServerRequest = new Promise((resolve, reject) => {
-  // responseFromServer is set to represent a response from a server
-  let responseFromServer = false;
+    // responseFromServer is set to represent a response from a server
+    let responseFromServer = false;
 
-  if (responseFromServer) {
-    resolve("We got the data");
-  } else {
-    reject("Data not received");
-  }
+    if (responseFromServer) {
+        resolve("We got the data");
+    } else {
+        reject("Data not received");
+    }
 });
 
 makeServerRequest.then(result => {
-  console.log(result);
+    console.log(result);
 });
 makeServerRequest.catch(error => {
-  console.log(error);
+    console.log(error);
 });

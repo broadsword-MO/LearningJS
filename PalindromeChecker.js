@@ -76,5 +76,26 @@ function palindrome(str) {
     return console.log(true);
 }
 
-// palindrome("almostomla");
-palindrome("Ra%ce $car");
+// palindrome("almostomla"); // false
+palindrome("Ra%ce $car"); // true
+
+// ================== Solution w/o console.logs ===================
+function palindrome(str) {
+    const lowerStr = str.toLowerCase();
+    const regex = /[^a-z0-9]/g;
+    const newStr = lowerStr.replace(regex, "");
+    const strArr = [...newStr]
+
+    while (strArr.length > 0) {
+        if (strArr.length === 1) {
+            return console.log(true);
+        } else if (strArr.shift() === strArr.pop()) {
+        } else {
+            return console.log(false);
+        }
+    }
+    return console.log(true);
+}
+
+palindrome("almostomla"); // false
+// palindrome("Ra%ce $car"); // true

@@ -156,3 +156,65 @@ function countBetween(m, n) {
     }
 }
 console.log(countBetween(2, 5));
+
+// ================== A factorial recursion ===================
+var factorial = function (n) {
+    if (n === 0) {
+        return 1;
+    } else {
+        return n * factorial(n - 1);
+    }
+}
+console.log(factorial(5)); // 120
+
+function factorialize(num) {
+    if (num === 0) {
+        return 1;
+    } else {
+        return num * factorialize(num - 1);
+    }
+}
+
+console.log(factorialize(5));
+
+// Some more elaborate attempts of mine
+function factorialize(n) {
+    let result;
+    if (n < 1) {
+        return 0;
+    } else {
+        function factorial() {
+            if (n === 0) {
+                return 1;
+            } else {
+                result = n * factorial(n - 1);
+                return result;
+            }
+        }
+        return result;
+    }
+}
+
+console.log(factorialize(5));
+
+// A working nested function for reference
+function foo(n) {
+    function bar() {
+        return 2 * n;
+    }
+    return bar();
+}
+console.log(foo(3)); // 6
+
+function foo(n) {
+    let result;
+    var bar = function () {
+        if (n === 0) {
+            result = 1;
+            return result;
+        }
+        return n * bar(n - 1);
+    }
+    return result;
+}
+console.log(foo(3)); // Should be 6

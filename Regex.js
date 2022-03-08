@@ -172,7 +172,7 @@ console.log(firstRegex.test(notFirst)); // Returns false
 // You can search the end of strings using the dollar sign character $ at the end, inside of the regex forward slashes.
 
 let theEnding = "This is a never ending story";
-let storyRegex = /story$/;
+let storyRegex = /tory$/;
 console.log(storyRegex.test(theEnding)); // Returns true
 let noEnding = "Sometimes a story will have to end";
 console.log(storyRegex.test(noEnding)); // Returns false

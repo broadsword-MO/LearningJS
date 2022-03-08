@@ -70,7 +70,7 @@ function pow(x, n) {
 
 console.log('final = ' + pow(2, 3)); // 8
 
-// ================== The same as ===================
+// ================== The same as this if/else ===================
 function pow(x, n) {
     if (n == 1) {
         console.log('return x = ' + x);
@@ -88,7 +88,7 @@ function pow(x, n) {
 
 console.log('final = ' + pow(2, 4)); // 16
 
-// ================== The same as ===================
+// ================== The same as this ternary ===================
 function pow(x, n) {
     return (n == 1) ? x : (x * pow(x, n - 1));
 }
@@ -175,7 +175,7 @@ function factorialize(num) {
     }
 }
 
-console.log(factorialize(5));
+console.log(factorialize(5)); // 120
 
 // Some more elaborate attempts of mine
 function factorialize(n) {
@@ -206,6 +206,7 @@ function foo(n) {
 }
 console.log(foo(3)); // 6
 
+// In process...
 function foo(n) {
     let result;
     var bar = function () {
@@ -218,3 +219,4 @@ function foo(n) {
     return result;
 }
 console.log(foo(3)); // Should be 6
+

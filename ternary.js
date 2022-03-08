@@ -34,7 +34,7 @@ console.log(rec(5)) // 15
 // ================== from sidjayisaok on Github Gist ===================
 // A factorial recursive function using ternary operator
 var fact = function (m) {
-    return ((m === 0) ? (1) : m * fact(m - 1));
+    return ((m === 0) ? (1) : m * fact(m - 1)); // First two internal sets of parentheses were optional
 };
 console.log(fact(5)); // 120
 

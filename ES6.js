@@ -1,5 +1,5 @@
 
-// ----------------- Object destructuring assignment of function parameters ---------------------
+// ================== Object destructuring assignment of function parameters ===================
 //    ????????????
 const profile = {
     name: "John",
@@ -41,8 +41,21 @@ const half = ({ max, min }) => (max + min) / 2.0; // Also works
 // Only change code above this line
 console.log(half(stats));
 
+// ================== Template literals (instead of concatenation) ===================
+// First, use backticks (`), not quotes (' or "), to wrap the string. Second, notice that the string is multi-line, both in the code and the output. This saves inserting \n within strings. The ${variable} syntax used is a placeholder. To add variables to strings, you just drop the variable in a template string and wrap it with ${ and }. Similarly, you can include other expressions in your string literal, for example ${a + b}.
+const person = {
+    name: "Zodiac Hasbro",
+    age: 56
+};
 
-// -------------------------
+const greeting = `Hello, my name is ${person.name}!
+  I am ${person.age} years old.`;
+
+console.log(greeting); // Hello, my name is Zodiac Hasbro!
+// I am 56 years old.
+
+
+// ------------ And -------------
 const result = {
     success: ["max-length", "no-amd", "prefer-arrow-functions"],
     failure: ["no-var", "var-on-top", "linebreak"],

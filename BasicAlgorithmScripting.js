@@ -134,7 +134,7 @@ console.log(titleCase("I'm a little tea pot")); // I'm A Little Tea Pot
 // ================== Slice and Splice ===================
 // Takes the "arr1" array and splices it into the "arr2" array at index "n", without altering the original arrays. added Mar 02, 2022
 function frankenSplice(arr1, arr2, n) {
-    let newArr2 = arr2.slice();
+    let newArr2 = arr2;
     newArr2.splice(n, 0, ...arr1);
     return newArr2;
 }
@@ -158,3 +158,116 @@ function bouncer(arr) {
 }
 console.log(bouncer([null, NaN, 1, 2, undefined])); // [ 1, 2 ]
 
+// ================== Where Do I Belong ===================
+// Returns the lowest index at which a value (num) should be inserted into an array (arr) once it has been sorted from smallest to biggest. added Mar 16, 2022
+// Mine
+function getIndexToIns(arr, num) {
+    arr.push(num);
+    console.log(arr);
+    arr.sort(); // Almost works, but a newer duplicate number gets placed after an existing one 
+    console.log(arr);
+    return arr.indexOf(num);
+}
+// Fixed
+function getIndexToIns(arr, num) {
+    arr.push(num); // .push(), .unshift(), splice() cannot be used in chaining because they do not return their value to the function, but arr.concat() can because it returns a new array with all the values specified
+    return arr.sort((a, b) => a - b).indexOf(num);
+}
+console.log(getIndexToIns([60, 40], 50)); // 1
+console.log(getIndexToIns([1, 2, 3, 4], 1.5)); // 1
+console.log(getIndexToIns([3, 10, 5], 3)); // 0
+
+// fCC solution
+function getIndexToIns(arr, num) {
+    return arr.concat(num).sort((a, b) => a - b).indexOf(num);
+}
+console.log(getIndexToIns([], 1)); // 0
+console.log(getIndexToIns([5, 3, 20, 3], 5)); // 2
+
+// ================== Mutations ===================
+// Returns true if the string in the first element of the array contains all of the letters of the string in the second element of the array.
+// Mine
+function mutation(arr) {
+    arr[0] = arr[0].toLowerCase();
+    arr[1] = arr[1].toLowerCase();
+    for (let i = 0; i < arr[1].length; i++) {
+        let hasAllLetts = false;
+        for (let j = 0; j < arr[0].length; j++) {
+            if (arr[1][i] === arr[0][j]) {
+                console.log(`arr[1][i] = ${arr[1][i]}, arr[0][j] = ${arr[0][j]}`);
+                hasAllLetts = true;
+            }
+        }
+        if (hasAllLetts === false) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// fCC
+// First we make the two strings in the array lowercase. Then we loop through our test characters and if any of them is not found we return false. If they are all found, the loop will finish without returning anything and we get to return true.
+function mutation(arr) {
+    let test = arr[1].toLowerCase();
+    let target = arr[0].toLowerCase();
+    for (let i = 0; i < test.length; i++) {
+        console.log(target.indexOf(test[i])); // I added
+        if (target.indexOf(test[i]) < 0) return false;
+    }
+    return true;
+}
+console.log(mutation(["Hello", "ehy"])); // 1 0 -1 false
+//And
+// Take the second string, lowercase it and turn it into an array; then make sure every one of its letters is a part of the lowercased first string. .every() will basically give you letter by letter to compare, which we do by using .indexOf() on the first string. .indexOf() will give you -1 if the current letter is missing. We check that not to be the case, for if this happens even once .every() will be false.
+function mutation(arr) {
+    return arr[1]
+        .toLowerCase()
+        .split("")
+        .every(function (letter) {
+            return arr[0].toLowerCase().indexOf(letter) !== -1;
+        });
+}
+console.log(mutation(["Mary", "Aarmy"])); // true
+console.log(mutation(["ate", "date"])); // false
+console.log(mutation(["zyxwvutsrqponmlkjihgfedcba", "qrstu"])); // true
+
+// ================== Chunky Monkey ===================
+// A function that splits an array (arr) into groups the length of a number (size) and returns them as a two-dimensional array. Added Mar 21, 2022
+function chunkArrayInGroups(arr, size) {
+    if (size <= 0) {
+        return console.log('Get it right!');
+    }
+    let newArr = [];
+    let newSize = size;
+    while (newArr.length < (arr.length / size)) {
+        newArr.push(arr.slice(newSize - size, newSize));
+        newSize += size;
+    }
+    return newArr;
+}
+// fCC
+function chunkArrayInGroups(arr, size) {
+    let newArr = [];
+    for (let i = 0; i < arr.length; i += size) {
+        newArr.push(arr.slice(i, i + size));
+    }
+    return newArr;
+}
+// And
+function chunkArrayInGroups(arr, size) {
+    let newArr = [];
+    while (arr.length > 0) {
+        newArr.push(arr.splice(0, size));
+    }
+    return newArr;
+}
+// fCC forum lbarjak ... brilliant
+// A 'For cycle without cycle’s variable increment/decrement. The variable is arr.length only. I use splice instead slice.' Splice can remove some of the array, but slice doesn't.
+function chunkArrayInGroups(arr, size) {
+    var ar = [];
+    for (i = 0; i < arr.length;) ar.push(arr.splice(i, size));
+    return ar;
+}
+console.log(chunkArrayInGroups([0, 1, 2, 3, 4, 5], 4)); // [[ 0, 1, 2, 3 ], [ 4, 5 ]]
+console.log(chunkArrayInGroups(["a", "b", "c", "d"], 2)); // [[ 'a', 'b' ], [ 'c', 'd' ]]
+console.log(chunkArrayInGroups([0, 1, 2, 3, 4, 5, 6, 7, 8], 4)); // [[ 0, 1, 2, 3 ], [ 4, 5, 6, 7 ], [ 8 ]]

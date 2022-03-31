@@ -88,9 +88,182 @@ console.log(crow instanceof Bird); // true
 let canary = {
     name: "Mildred",
     color: "Yellow",
-    numLegs: 2
+    numLegs: 2,
+    feathers: 'many'
 };
 console.log(canary instanceof Bird); // false
 
+// Syntax for - Not an instanceof 
+if (!(canary instanceof Bird)) {
+    // Do something, such as
+    canary = new Bird('Tweety')
+}
+console.log(canary instanceof Bird); // true
+console.log(canary); // Bird { name: 'Tweety', color: undefined, numLegs: 2 }
+console.log(Object.keys(canary)); // [ 'name', 'color', 'numLegs' ] // No feathers prop!!!
 
+// ================== Using Own Properties with .hasOwnProperties() ===================
+// 'name' and 'numLegs' are called 'own properties', because they are defined directly on the object instance. That means that every instance of the 'Bird' constructor will have its own separate copy of these properties.
+function Bird(name) {
+    this.name = name; // This is an 'own property'
+    this.numLegs = 2; // This is an 'own property'
+}
+
+let canary = new Bird("Tweety");
+let ownProps = [];
+for (let prop in canary) {
+    if (canary.hasOwnProperty(prop)) {
+        ownProps.push(prop);
+    }
+}
+console.log(ownProps); // [ 'name', 'numLegs' ]
+
+// ================== Use Prototype Properties to Reduce Duplicate Code ===================
+// Prototype properties are defined on the prototype and are automatically shared among ALL instances of the 'Dog' constructor. The prototype property allows us to add new properties to an object constructor from outside the original code block. The prototype property also allows you to add new functions to the objects constructor. 
+function Dog(name) {
+    this.name = name; // own property
+}
+Dog.prototype.numLegs = 4; // prototype property
+
+let beagle = new Dog("Snoopy");
+console.log(beagle.numLegs); // 4   But... 
+console.log(Object.keys(beagle)); // [ 'name' ] because Object.keys() doesn't return prototype properties
+
+// ================== Iterate Over All Object Properties/Keys ===================
+function Dog(name) {
+    this.name = name;
+}
+
+Dog.prototype.numLegs = 4;
+
+let beagle = new Dog("Snoopy");
+
+// Using 'for...in' loops...
+// This for-in loop adds all of the 'own properties' of 'beagle' to the array 'ownProps' and all of the prototype properties of beagle(Dog) to the array 'prototypeProps'.
+let ownProps = [];
+let prototypeProps = [];
+for (let prop in beagle) {
+    if (beagle.hasOwnProperty(prop)) {
+        ownProps.push(prop); // only 'own properties'
+    } else {
+        prototypeProps.push(prop); // all the other properties, e.g. prototype
+    }
+}
+// And this one iterates over all 'own properties' and the object's prototype chain properties and pushes them into the 'objKeys' array
+let objKeys = [];
+for (var key in beagle) objKeys.push(key);
+
+console.log(ownProps); // [ 'name' ]
+console.log(prototypeProps); // [ 'numLegs' ]
+console.log(Object.keys(beagle)); // [ 'name' ] Only gives 'own properties'
+console.log(beagle); // Dog { name: 'Snoopy' } Only gives 'own properties' (with constructor) but...
+console.log(objKeys); // [ 'name', 'numLegs' ]
+
+
+// ================== Understand the Constructor Property ===================
+// There is a 'constructor' property located on the object instances that have been created. The constructor property is a reference to the constructor function that created the instance.
+// Note: Since the constructor property can be overwritten it’s generally better to use the 'instanceof' method to check the type of an object.
+function Dog(name) {
+    this.name = name;
+}
+
+let beagle = new Dog("Snoopy");
+
+function joinDogFraternity(candidate) {
+    if (candidate.constructor === Dog) {
+        return true;
+    } else {
+        return false;
+    }
+}
+console.log(joinDogFraternity(beagle)); // true
+
+// ================== Change the Prototype to a New Object ===================
+// Instead of adding each prototype property one by one with object.prototype.property, we can do this much easier by setting the prototype to a new object. That way all of the prototype properties are added at once.
+function Dog(name) {
+    this.name = name;
+}
+
+Dog.prototype = {
+    numLegs: 4,
+    eat: function () {
+        console.log("crunch crunch crunch");
+    },
+    describe: function () {
+        console.log(`My name is ${this.name}`);
+    }
+};
+// Or this ES6 version without the colon and function word
+Dog.prototype = {
+    numLegs: 4,
+    eat() {
+        console.log("crunch crunch crunch");
+    },
+    describe() {
+        console.log(`My name is ${this.name}`);
+    }
+};
+
+let beagle = new Dog("Snoopy");
+
+console.log(Object.keys(beagle)); // [ 'name' ] 
+console.log(Object.getOwnPropertyNames(beagle)); // [ 'name' ]
+console.log(beagle); // { name: 'Snoopy' } // why is it not?- Dog { name: 'Snoopy' }
+console.log(beagle.constructor === Dog); // false   Note: now this has to be re-set
+
+let objKeys = [];
+for (var key in beagle) objKeys.push(key);
+console.log(objKeys) // [ 'name', 'numLegs', 'eat', 'describe' ]
+
+// ================== Set the Constructor Property when Changing the Prototype ===================
+// Manually setting the prototype to a new object erases the constructor property. Remember to define the constructor property when you set a prototype to a new object.
+function Dog(name) {
+    this.name = name;
+}
+
+Dog.prototype = {
+    constructor: Dog,  // Only added this line
+    numLegs: 4,
+    eat: function () {
+        console.log("nom nom nom");
+    },
+    describe: function () {
+        console.log("My name is " + this.name);
+    }
+};
+
+let beagle = new Dog("Snoopy");
+console.log(beagle.constructor === Dog); // true    This has now been reset
+
+// ================== Check an Object’s Prototype with .isPrototypeOf() ===================
+// An object inherits its prototype directly from the constructor function that created it. You can show this relationship with the .isPrototypeOf() method:
+function Dog(name) {
+    this.name = name;
+}
+
+let beagle = new Dog("Snoopy");
+
+console.log(Dog.prototype.isPrototypeOf(beagle)); // true
+
+// ================== Understand the Prototype Chain ===================
+// 'Object' is a supertype for all objects in JavaScript and so it is a supertype for both Dog and beagle. Any method (e.g. .hasOwnProperty()) defined in Object.prototype can be accessed by all its subtypes. Dog is a subtype of Object and supertype of beagle. Beagle is a subtype of Dog. This is an example of the prototype chain.
+function Dog(name) {
+    this.name = name;
+}
+
+let beagle = new Dog("Snoopy");
+
+console.log(Object.prototype.isPrototypeOf(Dog.prototype)); // true
+console.log(Dog.prototype.isPrototypeOf(beagle));  // true
+
+// ================== Use Inheritance So You Don't Repeat Yourself ===================
+//  A principle in programming is Don't Repeat Yourself (DRY). Duplicate code in objects can be made to follow the DRY principle by moving it to a supertype (or parent). Like...
+function Animal() { }
+
+Animal.prototype = {
+    constructor: Animal,
+    eat: function () {
+        console.log("nom nom nom");
+    }
+};
 

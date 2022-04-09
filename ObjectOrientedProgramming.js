@@ -3,9 +3,9 @@ let dog = {
     name: "Spot",
     numLegs: 4,
 };
-console.log(dog); // { name: 'Spot', numLegs: 4 }
+console.log(dog); // { name: 'Spot', numLegs: 4 } Returns key/value pairs
 // ================== Object.keys() ===================
-//Returns an array of the object's keys
+// Returns an array of the object's keys
 let dog = {
     name: "Spot",
     numLegs: 4,
@@ -13,7 +13,7 @@ let dog = {
 console.log(Object.keys(dog)); // [ 'name', 'numLegs' ]
 
 // ================== Object.values() ===================
-//Returns an array of the object's keys' values
+// Returns an array of the object's keys' values
 let dog = {
     name: "Spot",
     numLegs: 4,
@@ -56,7 +56,7 @@ function Dog() {
 }
 
 // ================== Use a Constructor to Create Objects ===================
-// Notice that the 'new' operator is used when calling a constructor
+// Notice that the 'new' operator is used when calling a constructor.
 function Dog() {
     this.name = 'George';
     this.color = 'brown';
@@ -256,8 +256,11 @@ let beagle = new Dog("Snoopy");
 console.log(Object.prototype.isPrototypeOf(Dog.prototype)); // true
 console.log(Dog.prototype.isPrototypeOf(beagle));  // true
 
+// ===================================================
+//             Object Inheritance
+// ===================================================
 // ================== Use Inheritance So You Don't Repeat Yourself ===================
-//  A principle in programming is Don't Repeat Yourself (DRY). Duplicate code in objects can be made to follow the DRY principle by moving it to a supertype (or parent). Like...
+//  Duplicate code in objects can be made to follow the Don't Repeat Yourself (DRY) principle by creating a supertype (or parent). Like...
 function Animal() { }
 
 Animal.prototype = {
@@ -267,3 +270,47 @@ Animal.prototype = {
     }
 };
 
+// ================== Inherit Behaviors from a Supertype ===================
+// This is one way to create an instance of Animal using the 'new' operator:
+let animal = new Animal();
+// There are some disadvantages when using this syntax for inheritance. Instead, here's a better approach without those disadvantages
+// Step 1: use Object.create():
+let animal = Object.create(Animal.prototype);
+
+// ================== Set the Child's Prototype to an Instance of the Parent ===================
+// Step 2:
+Bird.prototype = Object.create(Animal.prototype);
+
+// ================== Reset an Inherited Constructor Property ===================
+// When an object inherits its prototype from another object, it also inherits the supertype's constructor property. But 'duck' and all instances of 'Bird' should show that they were constructed by 'Bird' and not 'Animal'. To do so, you can manually set the constructor property of 'Bird' to the 'Bird' object
+// Step 3:
+Bird.prototype.constructor = Bird;
+
+// ================== Add Methods After Inheritance ===================
+function Animal() { }
+Animal.prototype.eat = function () { console.log("nom nom nom"); };
+
+function Dog() { }
+
+// Only change code below this line
+Dog.prototype = Object.create(Animal.prototype);
+Dog.prototype.constructor = Dog;
+Dog.prototype.bark = function () {
+    console.log('Woof!');
+}
+// Only change code above this line
+
+let beagle = new Dog();
+
+// ================== Override Inherited Methods ===================
+function Animal() { }
+Animal.prototype.eat = function () {
+    return "nom nom nom";
+};
+function Bird() { }
+
+Bird.prototype = Object.create(Animal.prototype);
+
+Bird.prototype.eat = function () {
+    return "peck peck peck";
+};

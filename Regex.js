@@ -14,8 +14,8 @@ console.log(result); // true
 
 // ================== .match vs .test ===================
 // Note that the .match syntax is the "opposite" of the .test method.
-'string'.match(/regex/); // returns ['string']
-/regex/.test('string'); // returns true or false
+"string".match(/regex/); // returns ['string']
+/regex/.test("string"); // returns true or false
 
 // ================== The wildcard "." ===================
 // The "." in the regex is a wildcard representing one unkown character.
@@ -28,7 +28,8 @@ console.log(result1); // [ 'tun', 'fun' ]
 
 // ================== Character classes "[ ]" ===================
 // Character classes or sets allow you to define an unordered group of characters you wish to match by placing them inside square brackets.
-let quoteSample = "Beware of bugs in the above code; I have only proved it correct, not tried it.";
+let quoteSample =
+    "Beware of bugs in the above code; I have only proved it correct, not tried it.";
 let vowelRegex = /[aeiou]/gi; // The "i" afterward means: insensitive (to letter case)
 let result = quoteSample.match(vowelRegex);
 console.log(result); /* [
@@ -55,7 +56,7 @@ console.log(result); /* [
 // ================== Also ===================
 // Any set of letters or numbers, inclusive
 let quoteSample = "Blueberry 3.141592653s are delicious.";
-let myRegex = /[h-s2-6]/ig;
+let myRegex = /[h-s2-6]/gi;
 let result = quoteSample.match(myRegex);
 console.log(result); /* [
     'l', 'r', 'r', '3', '4',
@@ -97,7 +98,7 @@ console.log(oPhrase.match(goRegex)); // null
 
 let american = "color";
 let british = "colour";
-let rainbowRegex= /colou?r/;
+let rainbowRegex = /colou?r/;
 console.log(rainbowRegex.test(american)); // Returns true
 console.log(american.match(rainbowRegex)); // Returns ['color']
 console.log(rainbowRegex.test(british)); // Returns true
@@ -193,7 +194,7 @@ let multipleA = /a{3,5}h/;
 console.log(multipleA.test(A4)); // Returns true
 console.log(multipleA.test(A2)); // Returns false
 
-// To only specify the lower number of patterns, keep the first number followed by a comma.For example, to match only the string hah with the letter a appearing at least 3 times, your regex would be /ha{3,}h/.
+// To only specify the lower number of patterns, keep the first number followed by a comma. For example, to match only the string hah with the letter a appearing at least 3 times, your regex would be /ha{3,}h/.
 
 let A4 = "haaaah";
 let A2 = "haah";
@@ -240,7 +241,7 @@ let sampleWord = "8pass99"; // Returns true
 let sampleWord = "astr1on11aut"; // Returns true
 // Regex needs 6 or more alphanumerics (or underscore) with at least 2 consecutive numbers.
 let pwRegex = /(?=\w{6,})(?=\D*\d\d)/; // The order doesn't matter
-console.log(pwRegex.test(sampleWord)); 
+console.log(pwRegex.test(sampleWord));
 
 // ================== Grouping of characters, mixed, either/or ===================
 // To match an ordered group of characters in a string use parentheses "()".
@@ -291,7 +292,7 @@ let silverRegex = /silver/;
 wrongText.replace(silverRegex, "blue"); // Returns "The sky is blue."
 
 // You can also access capture groups in the replacement string with dollar signs ($).
-"Code Camp".replace(/(\w+)\s(\w+)/, '$2 $1'); // Returns "Camp Code"
+"Code Camp".replace(/(\w+)\s(\w+)/, "$2 $1"); // Returns "Camp Code"
 
 // Capture Groups to Search and Replace
 // Exercise, return opposite order

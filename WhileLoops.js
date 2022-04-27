@@ -20,7 +20,7 @@ function palindrome(str) {
     const regex = /[^a-z0-9]/g;
     const newStr = lowerStr.replace(regex, "");
     console.log(newStr);
-    const strArr = [...newStr]
+    const strArr = [...newStr];
     console.log(strArr);
 
     while (strArr.length > 0) {
@@ -30,7 +30,7 @@ function palindrome(str) {
         } else if (strArr.shift() === strArr.pop()) {
             console.log(strArr);
             console.log(strArr.length);
-            console.log("so far so good")
+            console.log("so far so good");
         } else {
             return console.log(false);
         }
@@ -66,4 +66,3 @@ function copyMachine(arr, num) {
 }
 // Array and number of times to copy into empty array
 console.log(copyMachine([true, false, true], 2));
-

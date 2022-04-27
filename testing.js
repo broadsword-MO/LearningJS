@@ -238,28 +238,6 @@ console.log(`Sum of array values is: ${arraySum}`); // 'Sum of array values is: 
 // ================== Falsy values ===================
 // "falsy" values: false, 0, "" (an empty string), NaN, undefined, and null.
 
-// ================== Spread ===================
-function copyMachine(arr, num) {
-    let newArr = [];
-    while (num >= 1) {
-        // Only change code below this line
-        newArr.push([...arr]); // Or
-        // newArr.splice(-1, 0, [...arr]);
-        // Only change code above this line
-        num--;
-    }
-    return newArr;
-}
-// Array and number of times to copy into empty array
-console.log(copyMachine([true, false, true], 2)); // [ [ true, false, true ], [ true, false, true ] ]
-
-// And
-function spreadOut() {
-    let fragment = ["to", "code"];
-    let sentence = ["learning", ...fragment, "is", "fun"]; // Change this line
-    return sentence.join(' ');
-}
-console.log(spreadOut()); // learning to code is fun
 
 // ================== .map with arrow function ===================
 const materials = ["Hydrogen", "Helium", "Lithium", "Beryllium"];

@@ -29,7 +29,7 @@ function reverseString(str) {
     return revStr;
 }
 // Or
-function reverseString(str) {
+function revString(str) {
     let reversedStr = "";
     for (let i = str.length - 1; i >= 0; i--) {
         reversedStr += str[i];
@@ -57,7 +57,7 @@ console.log(filteredArray([[3, 2, 3], [1, 6, 2], [3, 13, 26], [19, 3, 9]], 3)); 
 
 // ================== Nested For loops ===================
 // Filters thru sub-arrays only including ones that do not contain a certain element 
-function filteredArray(arr, elem) {
+function filterArray(arr, elem) {
     let newArr = [];
     for (let i = 0; i < arr.length; i++) {
         let hasElem = false;
@@ -72,7 +72,7 @@ function filteredArray(arr, elem) {
     }
     return newArr;
 }
-console.log(filteredArray([[3, 2, 3], [1, 6, 2], [3, 13, 26], [19, 3, 9]], 3)); // [ [ 1, 6, 2 ] ]
+console.log(filterArray([[3, 2, 3], [1, 6, 2], [3, 13, 26], [19, 3, 9]], 3)); // [ [ 1, 6, 2 ] ]
 
 // --------------------
 const myArr = [

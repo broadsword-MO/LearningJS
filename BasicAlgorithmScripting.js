@@ -18,11 +18,11 @@ function findLongestWordLength(str) {
     console.log("strArr = " + strArr);
     console.log(strArr.length);
     for (let i = 0; i < strArr.length; i++) {
-        console.log('strArr[i] = ' + strArr[i]);
+        console.log("strArr[i] = " + strArr[i]);
         console.log("string length = " + strArr[i].length);
         if (longestStr < strArr[i].length) {
             longestStr = strArr[i].length;
-            console.log('longestStr = ' + longestStr);
+            console.log("longestStr = " + longestStr);
         }
     }
     return longestStr;
@@ -46,7 +46,14 @@ function largestOfFour(arr) {
     }
     return newArr;
 }
-console.log(largestOfFour([[17, 23, 25, 12], [25, 7, 34, 48], [4, -10, 18, 21], [-72, -3, -17, -10]])); // [ 25, 48, 21, -3 ]
+console.log(
+    largestOfFour([
+        [17, 23, 25, 12],
+        [25, 7, 34, 48],
+        [4, -10, 18, 21],
+        [-72, -3, -17, -10],
+    ])
+); // [ 25, 48, 21, -3 ]
 
 // ================== Confirm the Ending ===================
 // Function checks for the target at the end of the string
@@ -96,7 +103,7 @@ console.log(repeatStringNumTimes("abc", 3)); // abcabcabc
 
 // ================== Truncate a String ===================
 function truncateString(str, num) {
-    return str.length <= num ? str : str.slice(0, num) + '...';
+    return str.length <= num ? str : str.slice(0, num) + "...";
 }
 
 console.log(truncateString("A-tisket a-tasket A green and yellow basket", 8)); // A-tisket...
@@ -111,12 +118,12 @@ function findElement(arr, func) {
     return undefined;
 }
 // console.log(findElement([1, 3, 5, 8, 9, 10], function(num) { return num % 2 === 0; })); // 8
-console.log(findElement([1, 2, 3, 4], num => num % 4 === 0)); // 4
+console.log(findElement([1, 2, 3, 4], (num) => num % 4 === 0)); // 4
 
 // ================== Boo Who ===================
 // Checks if an entry is a boolean
 function booWho(bool) {
-    return typeof bool === 'boolean';
+    return typeof bool === "boolean";
 }
 console.log(booWho(false)); // true
 
@@ -144,7 +151,8 @@ console.log(frankenSplice([1, 2, 3], [4, 5, 6], 1)); // [ 4, 1, 2, 3, 5, 6 ]
 // Kicks out any 'falsy' values, returns the new array
 function bouncer(arr) {
     let newArr = [];
-    for (let x of arr) { // using a for/of loop
+    for (let x of arr) {
+        // using a for/of loop
         if (x) newArr.push(x); // If x evaluates to false the .push() won't happen
     }
     return newArr;
@@ -164,7 +172,7 @@ console.log(bouncer([null, NaN, 1, 2, undefined])); // [ 1, 2 ]
 function getIndexToIns(arr, num) {
     arr.push(num);
     console.log(arr);
-    arr.sort(); // Almost works, but a newer duplicate number gets placed after an existing one 
+    arr.sort(); // Almost works, but a newer duplicate number gets placed after an existing one
     console.log(arr);
     return arr.indexOf(num);
 }
@@ -179,7 +187,10 @@ console.log(getIndexToIns([3, 10, 5], 3)); // 0
 
 // fCC solution
 function getIndexToIns(arr, num) {
-    return arr.concat(num).sort((a, b) => a - b).indexOf(num);
+    return arr
+        .concat(num)
+        .sort((a, b) => a - b)
+        .indexOf(num);
 }
 console.log(getIndexToIns([], 1)); // 0
 console.log(getIndexToIns([5, 3, 20, 3], 5)); // 2
@@ -194,7 +205,9 @@ function mutation(arr) {
         let hasAllLetts = false;
         for (let j = 0; j < arr[0].length; j++) {
             if (arr[1][i] === arr[0][j]) {
-                console.log(`arr[1][i] = ${arr[1][i]}, arr[0][j] = ${arr[0][j]}`);
+                console.log(
+                    `arr[1][i] = ${arr[1][i]}, arr[0][j] = ${arr[0][j]}`
+                );
                 hasAllLetts = true;
             }
         }
@@ -235,11 +248,11 @@ console.log(mutation(["zyxwvutsrqponmlkjihgfedcba", "qrstu"])); // true
 // A function that splits an array (arr) into groups the length of a number (size) and returns them as a two-dimensional array. Added Mar 21, 2022
 function chunkArrayInGroups(arr, size) {
     if (size <= 0) {
-        return console.log('Get it right!');
+        return console.log("Get it right!");
     }
     let newArr = [];
     let newSize = size;
-    while (newArr.length < (arr.length / size)) {
+    while (newArr.length < arr.length / size) {
         newArr.push(arr.slice(newSize - size, newSize));
         newSize += size;
     }
@@ -265,7 +278,7 @@ function chunkArrayInGroups(arr, size) {
 // A 'For cycle without cycle’s variable increment/decrement. The variable is arr.length only. I use splice instead slice.' Splice can remove some of the array, but slice doesn't.
 function chunkArrayInGroups(arr, size) {
     var ar = [];
-    for (i = 0; i < arr.length;) ar.push(arr.splice(i, size));
+    for (i = 0; i < arr.length; ) ar.push(arr.splice(i, size));
     return ar;
 }
 console.log(chunkArrayInGroups([0, 1, 2, 3, 4, 5], 4)); // [[ 0, 1, 2, 3 ], [ 4, 5 ]]

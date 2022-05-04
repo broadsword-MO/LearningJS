@@ -106,7 +106,7 @@ console.log(canary instanceof Bird); // true
 console.log(canary); // Bird { name: 'Tweety', color: undefined, numLegs: 2 }
 console.log(Object.keys(canary)); // [ 'name', 'color', 'numLegs' ] // No feathers prop!!!
 
-// ================== Using Own Properties with .hasOwnProperties() ===================
+// ================== Using Own Properties with .hasOwnProperty() ===================
 // 'name' and 'numLegs' are called 'own properties', because they are defined directly on the object instance. That means that every instance of the 'Bird' constructor will have its own separate copy of these properties.
 function Bird(name) {
     this.name = name; // This is an 'own property'
@@ -264,7 +264,7 @@ console.log(Dog.prototype.isPrototypeOf(beagle)); // true
 // ===================================================
 // ================== Use Inheritance So You Don't Repeat Yourself ===================
 //  Duplicate code in objects can be made to follow the Don't Repeat Yourself (DRY) principle by creating a supertype (or parent). Like...
-function Animal() {}
+function Animal() { }
 
 Animal.prototype = {
     constructor: Animal,
@@ -291,12 +291,12 @@ Bird.prototype.constructor = Bird;
 
 // ================== Add Methods After Inheritance ===================
 // A constructor function that inherits its prototype object from a supertype constructor function can still have its own methods in addition to inherited methods.
-function Animal() {}
+function Animal() { }
 Animal.prototype.eat = function () {
     console.log("nom nom nom");
 };
 
-function Dog() {}
+function Dog() { }
 
 // Functions are added to Dog's prototype the same way as any constructor function:
 Dog.prototype.bark = function () {
@@ -311,11 +311,11 @@ let beagle = new Dog();
 
 // ================== Override Inherited Methods ===================
 // It's possible to override an inherited method- by adding a method to ChildObject.prototype using the same method name as the one to override.
-function Animal() {}
+function Animal() { }
 Animal.prototype.eat = function () {
     return "nom nom nom";
 };
-function Bird() {}
+function Bird() { }
 
 Bird.prototype = Object.create(Animal.prototype);
 
@@ -387,13 +387,13 @@ console.log(ducky.getWeight()); // 15
 let motionModule = (function () {
     return {
         glideMixin: function (obj) {
-            // obj.glide = () => console.log("Gliding on the water");
+            // obj.glide = () => console.log("Gliding on the water"); // Or
             obj.glide = function () {
                 console.log("Gliding on the water");
             };
         },
         flyMixin: function (obj) {
-            // obj.fly = () => console.log("Flying, wooosh!");
+            // obj.fly = () => console.log("Flying, wooosh!"); // Or
             obj.fly = function () {
                 console.log("Flying, wooosh!");
             };
@@ -402,7 +402,7 @@ let motionModule = (function () {
 })();
 
 // The advantage of the module pattern is that all of the 'motion' behaviors can be packaged into a single object that can then be used by other parts of your code.
-motionModule.glideMixin(duck);
-duck.glide();
+motionModule.glideMixin(ducky);
+ducky.glide();
 
 

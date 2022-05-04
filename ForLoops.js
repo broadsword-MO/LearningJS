@@ -101,7 +101,7 @@ function largestOfFour(arr) {
 }
 console.log(largestOfFour([[17, 23, 25, 12], [25, 7, 34, 48], [4, -10, 18, 21], [-72, -3, -17, -10]])); // [ 25, 48, 21, -3 ]
 
-// ================== "For In" loop ===================
+// ================== "For In" object loop ===================
 const users = {
     Alan: {
         online: false
@@ -128,7 +128,7 @@ function countOnline(usersObj) {
 
 console.log(countOnline(users)); // 1
 
-// ================== "For of" loop ===================
+// ================== "For of" array loop ===================
 // Only adds 'truthy' values to the new array
 function bouncer(arr) {
     let newArr = [];

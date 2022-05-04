@@ -379,7 +379,7 @@ Filter takes up to 2 parameters:
     1. The first is a function, which calls a defined callback function on each element of an array, takes up to three arguments and returns an array that contains the results. 
         a. The first argument is the parameter representing the current element being processed.
         b. The second argument (optional) is the index of that element.
-        c. The third argument (optional) is the array upon which the map method was called.
+        c. The third argument (optional) is the array upon which the filter method was called.
     2. The second (optional) is an object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the 'this' value. */
 
 
@@ -387,10 +387,10 @@ const users = [
     { name: 'John', age: 34 },
     { name: 'Amy', age: 20 },
     { name: 'camperCat', age: 10 }
-  ];
-  
-  const usersUnder30 = users.filter(user => user.age < 30);
-  console.log(usersUnder30); // [ { name: 'Amy', age: 20 }, { name: 'camperCat', age: 10 } ]
+];
+
+const usersUnder30 = users.filter(user => user.age < 30);
+console.log(usersUnder30); // [ { name: 'Amy', age: 20 }, { name: 'camperCat', age: 10 } ]
 
 // This uses the movie list from a ways above. Chained. Gives a list array of movies with an 8.0 or higher rating
 const filteredList = watchList
@@ -412,18 +412,18 @@ console.log(filteredList); /* [
 // The global variable
 const s = [23, 65, 98, 5];
 
-Array.prototype.myFilter = function(callback) {
-  // Only change code below this line
-  const newArray = [];
-  this.forEach(function(elem) {
-      if(callback(elem) === true) {newArray.push(elem)}; // .concat() won't work here
-  });
-  // Only change code above this line
-  return newArray;
+Array.prototype.myFilter = function (callback) {
+    // Only change code below this line
+    const newArray = [];
+    this.forEach(function (elem) {
+        if (callback(elem) === true) { newArray.push(elem) }; // .concat() won't work here
+    });
+    // Only change code above this line
+    return newArray;
 };
 
-const new_s = s.myFilter(function(item) {
-  return item % 2 === 1;
+const new_s = s.myFilter(function (item) {
+    return item % 2 === 1;
 });
 console.log(new_s); // [ 23, 65, 5 ]
 
@@ -436,44 +436,44 @@ If the arguments are not provided, the default is to start at the beginning of t
 
 function sliceArray(anim, beginSlice, endSlice) {
     // Only change code below this line
-  return anim.slice(beginSlice, endSlice);
+    return anim.slice(beginSlice, endSlice);
     // Only change code above this line
-  }
-  
-  const inputAnim = ["Cat", "Dog", "Tiger", "Zebra", "Ant"];
-  console.log(sliceArray(inputAnim, 1, 3)); // [ 'Dog', 'Tiger' ]
+}
+
+const inputAnim = ["Cat", "Dog", "Tiger", "Zebra", "Ant"];
+console.log(sliceArray(inputAnim, 1, 3)); // [ 'Dog', 'Tiger' ]
 
 // ================== Remove Elements from an Array Using slice Instead of splice ===================
 function nonMutatingSplice(cities) {
     // Only change code below this line
     return cities.slice(0, 3);
     // Only change code above this line
-  }
-  
-  const inputCities = ["Chicago", "Delhi", "Islamabad", "London", "Berlin"];
-  console.log(nonMutatingSplice(inputCities)); // [ 'Chicago', 'Delhi', 'Islamabad' ]
+}
+
+const inputCities = ["Chicago", "Delhi", "Islamabad", "London", "Berlin"];
+console.log(nonMutatingSplice(inputCities)); // [ 'Chicago', 'Delhi', 'Islamabad' ]
 
 // ================== Combine Two Arrays Using the concat Method ===================
 // The array.concat() method is called on the first array, then another array is provided as the argument to concat, which is added to the end of the first array. It returns a new array and does not mutate either of the original arrays. Here's an example:
 function nonMutatingConcat(original, attach) {
-  return original.concat(attach);
+    return original.concat(attach);
 }
-  
-  const first = [1, 2, 3];
-  const second = [4, 5];
-  console.log(nonMutatingConcat(first, second)); // [ 1, 2, 3, 4, 5 ]
+
+const first = [1, 2, 3];
+const second = [4, 5];
+console.log(nonMutatingConcat(first, second)); // [ 1, 2, 3, 4, 5 ]
 
 // ================== Add Elements to the End of an Array Using concat Instead of push ===================
 function nonMutatingPush(original, newItem) {
     // Only change code below this line
     return original.concat(newItem);
-  
+
     // Only change code above this line
-  }
-  
-  const first = [1, 2, 3];
-  const second = [4, 5];
-  console.log(nonMutatingPush(first, second)); // [ 1, 2, 3, 4, 5 ]
+}
+
+const first = [1, 2, 3];
+const second = [4, 5];
+console.log(nonMutatingPush(first, second)); // [ 1, 2, 3, 4, 5 ]
 
 // ================== Use the reduce Method to Analyze Data ===================
 /* The reduce method iterates over each item in an array and returns a single value (i.e. string, number, object, array). This is achieved via a callback function that is called on each iteration.
@@ -485,9 +485,9 @@ The callback function accepts four arguments:
 In addition to the callback function, reduce has an additional parameter which takes an initial value for the accumulator. If this second parameter is not used, then the first iteration is skipped and the second iteration gets passed the first element of the array as the accumulator. */
 
 const users = [
-  { name: 'John', age: 34 },
-  { name: 'Amy', age: 20 },
-  { name: 'camperCat', age: 10 }
+    { name: 'John', age: 34 },
+    { name: 'Amy', age: 20 },
+    { name: 'camperCat', age: 10 }
 ];
 
 const sumOfAges = users.reduce((sum, user) => sum + user.age, 0);
@@ -497,13 +497,13 @@ const users = [
     { name: 'John', age: 34 },
     { name: 'Amy', age: 20 },
     { name: 'camperCat', age: 10 }
-  ];
-  
-  const usersObj = users.reduce((obj, user) => {
+];
+
+const usersObj = users.reduce((obj, user) => {
     obj[user.name] = user.age;
     return obj;
-  }, {});
-  console.log(usersObj); // { John: 34, Amy: 20, camperCat: 10 }
+}, {});
+console.log(usersObj); // { John: 34, Amy: 20, camperCat: 10 }
 
 // Uses the movie list from a ways above. Gets the average rating of movies by C. Nolan
 function getRating(watchList) {
@@ -512,30 +512,29 @@ function getRating(watchList) {
     let averageRating = directedMovie.reduce((sum, movie) => sum + Number(movie.imdbRating) / directedMovie.length, 0);
     // Only change code above this line
     return averageRating;
-  }
-  
-  console.log(getRating(watchList)); // 8.675
+}
+
+console.log(getRating(watchList)); // 8.675
 
 // ================== Use Higher-Order Functions to Solve a Complex Problem ===================
+// Mine
 const squareList = arr => {
-    // Only change code below this line
     return arr
-      .filter(num => num > 0 && Number.isInteger(num))
-      .map(num => num * num);
-    // Only change code above this line
-  };
-  
+        .filter(num => num > 0 && Number.isInteger(num))
+        .map(num => num * num);
+};
+
 // And fCC using .reduce()
 const squareList = arr => {
     return arr.reduce((sqrIntegers, num) => {
-      return Number.isInteger(num) && num > 0
-        ? sqrIntegers.concat(num * num)
-        : sqrIntegers;
+        return Number.isInteger(num) && num > 0
+            ? sqrIntegers.concat(num * num)
+            : sqrIntegers;
     }, []);
-  };
+};
 
-  const squaredIntegers = squareList([-3, 4.8, 5, 3, -3.2]);
-  console.log(squaredIntegers); // [ 25, 9 ]
+const squaredIntegers = squareList([-3, 4.8, 5, 3, -3.2]);
+console.log(squaredIntegers); // [ 25, 9 ]
 
 // ================== Sort an Array Alphabetically using the sort Method ===================
 /* The sort method sorts the elements of an array alphanumerically or according to the callback function. 
@@ -548,17 +547,17 @@ function alphabeticalOrder(arr) {
     return arr.sort((a, b) => a === b ? 0 : a < b ? -1 : 1); // Or just
     // return arr.sort();
     // Only change code above this line
-  }
-  
-  console.log(alphabeticalOrder(["a", "d", "c", "a", "z", "g"])); // [ 'a', 'a', 'c', 'd', 'g', 'z' ]
-  // And
-  function ascendingOrder(arr) {
-    return arr.sort(function(a, b) {
-      return a - b;
+}
+
+console.log(alphabeticalOrder(["a", "d", "c", "a", "z", "g"])); // [ 'a', 'a', 'c', 'd', 'g', 'z' ]
+// And
+function ascendingOrder(arr) {
+    return arr.sort(function (a, b) {
+        return a - b;
     });
-  }
-  
-  console.log(ascendingOrder([1, 5, 2, 3, 4])); // [ 1, 2, 3, 4, 5 ]
+}
+
+console.log(ascendingOrder([1, 5, 2, 3, 4])); // [ 1, 2, 3, 4, 5 ]
 
 // ================== Return a Sorted Array Without Changing the Original Array ===================
 // A side effect of the sort method is that it changes the order of the elements in the original array. In other words, it mutates the array in place.
@@ -572,6 +571,116 @@ function nonMutatingSort(arr) {
 }
 
 console.log(nonMutatingSort(globalArray)); // [ 2, 3, 5, 6, 9 ]
-// Simply using .sort() won't work with this one below
+// Simply using .sort() won't work with this one below = [ 1, 100000, 21, 30, 4 ]
 console.log(nonMutatingSort([1, 30, 4, 21, 100000])); // [ 1, 4, 21, 30, 100000 ]
 
+// ================== Split a String into an Array Using the split Method ===================
+// The split method splits a string into an array of strings. It takes an argument for the delimiter, which can be a character to use to break up the string or a regular expression. For example, if the delimiter is a space, you get an array of words, and if the delimiter is an empty string, you get an array of each character in the string.
+
+function splitify(str) {
+    return str.split(/\W/);
+}
+
+console.log(splitify("Hello World,I-am code"));
+
+// ================== Combine an Array into a String Using the join Method ===================
+// The join method is used to join the elements of an array together to create a string. It takes an argument for the delimiter that is used to separate the array elements in the string.
+function sentensify(str) {
+    return str
+        .split(/\W/)
+        .join(" ");
+}
+
+console.log(sentensify("May-the-force-be-with-you")); // May the force be with you
+
+// ================== Apply Functional Programming to Convert Strings to URL Slugs ===================
+function urlSlug(title) {
+    return title
+        .toLowerCase()
+        .trim()
+        .split(/\s+/)
+        .join("-");
+}
+// Or fCC
+function urlSlug(title) {
+    return title
+        .toLowerCase()
+        .split(" ")
+        .filter(substr => substr !== "")
+        .join("-");
+}
+console.log(urlSlug(" A Mind Needs Books Like A Sword Needs A Whetstone")); // a-mind-needs-books-like-a-sword-needs-a-whetstone
+
+// ================== Use the every Method to Check that Every Element in an Array Meets a Criteria ===================
+// The every method works with arrays to check if every element passes a particular test. It returns a Boolean value: true, if all values meet the criteria, false if not.
+function checkPositive(arr) {
+    // fCC
+    // return arr.every(function(value) {
+    //     return value > 0;
+    //   }); // Or shorter, mine
+    return arr.every(num => num > 0);
+}
+
+console.log(checkPositive([1, 2, 3, -4, 5])); // false
+
+// ================== Use the some Method to Check that Any Elements in an Array Meet a Criteria ===================
+// The .some() method works with arrays to check if any element passes a particular test. It returns a Boolean value: true if any of the values meet the criteria, false if not.
+const numbers = [10, 50, 8, 220, 110, 11];
+
+console.log(numbers.some(function (currentValue) {
+    return currentValue < 10;
+})); // true
+
+// ================== Introduction to Currying and Partial Application ===================
+// The arity of a function is the number of arguments it requires. Currying a function means to convert a function of N arity into N functions of arity 1. In other words, it restructures a function so it takes one argument, then returns another function that takes the next argument, and so on.
+// Some examples
+function unCurried(x, y) {
+    return x + y;
+}
+
+function curried(x) {
+    return function (y) {
+        return x + y;
+    }
+}
+// Or
+const curried = x => y => x + y
+
+console.log(curried(2)(3)); // 5
+
+// This is useful in your program if you can't supply all the arguments to a function at one time. You can save each function call into a variable, which will hold the returned function reference that takes the next argument when it's available. Example:
+
+const varForCurryFunc = curried(1);
+console.log(varForCurryFunc(2)); // 3
+
+// Exercise
+function various(x) {
+    console.log(x); // 10
+    return function (y) {
+        console.log(y); // 20
+        return function (z) {
+            console.log(z); // 30
+            return x * y / z;
+        }
+    }
+}
+
+console.log(various(10)(20)(30)); // 6.666666666666667
+// Or using .bind()
+const partialFn = various.bind(this)(10); // Necessary 'this' first .bind() syntax order
+console.log(partialFn(20)(30)); // 6.666666666666667
+// And
+const partialFn = various.bind(this)(10)(20); // Necessary 'this' first .bind() syntax order
+console.log(partialFn(30)); // 6.666666666666667
+
+// Similarly, partial application can be described as applying a few arguments to a function at a time and returning another function that is applied to more arguments.
+// Partial application using .bind()
+function impartial(x, y, z) {
+    console.log(x);
+    console.log(y);
+    console.log(z);
+    return x * y / z;
+}
+
+const partialFn = impartial.bind(this, 30, 20); // Necessary 'this' first .bind() syntax order
+console.log(partialFn(10)); // 60

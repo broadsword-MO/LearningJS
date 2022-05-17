@@ -8,17 +8,17 @@ console.log(result); // true
 
 // ================== The or operator "|" ===================
 let petString = "James has a pet cat.";
-let petRegex = /dog|cat|bird|fish/; // the | "or" operator
+let petRegex = /dog|cat|bird|fish/; // Using the | "or" operator
 let result = petRegex.test(petString);
 console.log(result); // true
 
 // ================== .match vs .test ===================
 // Note that the .match syntax is the "opposite" of the .test method.
-"string".match(/regex/); // returns ['string']
+"string".match(/regex/); // returns ['string'] (Can't just use an equality operator: ===)
 /regex/.test("string"); // returns true or false
 
 // ================== The wildcard "." ===================
-// The "." in the regex is a wildcard representing one unkown character.
+// The period "." in the regex is a wildcard representing one unkown character.
 let exampleStr = "Let the stun have fun with regular expressions!";
 let unRegex = /.un/g; // The g afterward means "global" or check everywhere, don't just return the first result
 let result = unRegex.test(exampleStr);
@@ -208,6 +208,7 @@ console.log(multipleHA.test(A100)); // Returns true
 //                     Lookaheads
 // ===================================================
 // ================== Negative "?!" ===================
+// Something that is NOT followed by something
 let quit = "qu";
 let noquit = "qt";
 let qRegex = /q(?!u)/;
@@ -217,6 +218,7 @@ console.log(qRegex.test(noquit)); // Returns true
 console.log(noquit.match(qRegex)); // Returns ["q"]
 
 // ================== Positive "?=" ===================
+// Something that is followed by something
 let quit = "qu";
 let noquit = "qt";
 let quRegex = /q(?=u)/;
@@ -233,6 +235,7 @@ console.log(checkPass.test(password)); // Both true
 // But...
 let password = "abc123"; // Returns true
 let password = "123abc"; // Returns false
+// Regex needs 3-6 alphanumerics (or underscore) with at least 1 being a number.
 let checkPass = /(?=\w{3,6}\D*\d)/; // The order does matter, uses just 1 pattern
 console.log(checkPass.test(password)); // One true, the other false
 
@@ -286,7 +289,7 @@ console.log(reRegex.test(repeatNum)); // Returns true
 console.log(repeatNum.match(reRegex)); // Returns [ '42 42 42', '42' ]
 
 // ================== .replace() ===================
-// The inputs for .replace() is first the regex pattern you want to search for. The second parameter is the string to replace the match or a function to do something.
+// The inputs for .replace() is first the string or regex pattern you want to search for. The second parameter is the string to replace the match or a function to do something.
 let wrongText = "The sky is silver.";
 let silverRegex = /silver/;
 wrongText.replace(silverRegex, "blue"); // Returns "The sky is blue."
@@ -310,3 +313,115 @@ let wsRegex = /^ +| +$/g; // One or more spaces at the beginning or at the end o
 let result = hello.replace(wsRegex, ""); // Change this line
 console.log(result); // "Hello, World!"
 // Note: The String.prototype.trim() method would also work for this
+
+// ===================================================
+//            Inter Algo Scripting
+// ===================================================
+// ================== Spinal Tap Case ===================
+// Convert a string to spinal case. Spinal case is all-lowercase-words-joined-by-dashes.
+// Mine using regex
+function spinalCase(str) {
+    return str
+        .replace(/([A-Z])/g, " $1") // Adds a space before any capital letter
+        .trim() // Trim any whitespace from beginning/end
+        .replace(/\s+/g, "-") // replace the spaces with dashes
+        .replace(/_/g, "") // replace any underscore with nothing
+        .toLowerCase();
+}
+// Or fCC
+function spinalCase(str) {
+    return str
+        /* Split the string (into an array) at one of the following conditions
+            1. A whitespace character [\s] is encountered
+            2. Underscore character [_] is encountered
+            3. Or is followed by an uppercase letter [(?=[A-Z])] */
+        .split(/\s|_|(?=[A-Z])/)
+        // Join the array using a hyphen (-)
+        .join("-")
+        // Lowercase the whole resulting string
+        .toLowerCase();
+}
+// from fCC forum t0cc
+function spinalCase(str) {
+    return str.replace(/(\w)[ _]?([A-Z])| /g, "$1-$2").toLowerCase(); // Any alphanumeric followed by an optional space or underscore, then either an uppercase letter or space. Return first capture group, dash, second capture group throughout the whole string
+}
+
+console.log(spinalCase('This is Spinal Tap')); // this-is-spinal-tap
+console.log(spinalCase("The_Andy_Griffith_Show")); // the-andy-griffith-show
+console.log(spinalCase("AllThe-small Things")); // all-the-small-things
+
+
+// ===================================================
+//             JavascriptAlgo&DataStruct Projects
+// ===================================================
+// ================== Telephone Number Validator ===================
+// The user may fill out the form field any way they choose as long as it has the format of a valid US number. The area code is required. If the country code is provided, you must confirm that the country code is 1. Return true if the string is a valid US phone number; otherwise return false.
+function telephoneCheck(str) {
+    /* Explanation
+    This returns true or false for either:
+        1. Start of pattern, 10 digits, end of pattern... Or
+        2. Start pattern, an optional character group with a 1 and an optional space, a character group with an escaped L paran, 3 digits and an escaped R paran OR just 3 digits, an optional space or dash, 3 digits, a space or dash, 4 digits, end pattern */
+    return /^\d{10}$|^(1 ?)?(\(\d{3}\)|\d{3})[ -]?\d{3}[ -]\d{4}$/.test(str);
+}
+
+console.log(telephoneCheck("1(555)555-5555")) // should return true.
+console.log(telephoneCheck("(555)555-5555")); // should return true.
+console.log(telephoneCheck("(555-555-5555")); // should return false.
+console.log(telephoneCheck("1 (555) 555-5555")); // should return true.
+console.log(telephoneCheck("1 555)555-5555")); // should return false.
+console.log(telephoneCheck("(6054756961)")); // should return false.
+console.log(telephoneCheck("27576227382")); // should return false.
+console.log(telephoneCheck("555-555-5555")); // true
+console.log(telephoneCheck("5555555555")); // true
+console.log(telephoneCheck("1 555-555-5555")); // true
+
+
+// ===================================================
+//                  Others
+// ===================================================
+// from stackoverflow.com
+// ================== .replace() syntax $&, $', $` ===================
+/* $& (dollar sign ampersand) holds the entire regex match.
+
+$' (dollar followed by an apostrophe or single quote) holds the part of the string after (to the right of) the regex match.
+
+$` (dollar backtick) holds the part of the string before (to the left of) the regex match.
+
+- from www.regular-expressions.info/javascript.html
+The String.replace() function interprets several placeholders in the replacement text string. If the regexp contains capturing groups, you can use backreferences in the replacement text. $1 in the replacement text inserts the text matched by the first capturing group, $2 the second, and so on until $99. If your regex has more than 1 but fewer than 10 capturing groups, then $10 is treated as a backreference to the first group followed by a literal zero. If your regex has fewer than 7 capturing groups, then $7 is treated as the literal text $7. $& reinserts the whole regex match. $` (backtick) inserts the text to the left of the regex match, $' (single quote) inserts the text to the right of the regex match. $$ inserts a single dollar sign, as does any $ that does not form one of the placeholders described here.
+
+$_ and $+ are not part of the standard but are supported by some browsers nonetheless. In Internet Explorer, $_ inserts the entire subject string. In Internet Explorer and Firefox, $+ inserts the text matched by the highest-numbered capturing group in the regex. If the highest-numbered group did not participate in the match, $+ is replaced with nothing. This is not the same as $+ in Perl, which inserts the text matched by the highest-numbered capturing group that actually participated in the match.
+
+While things like $& are actually variables in Perl that work anywhere, in JavaScript these only exist as placeholders in the replacement string passed to the replace() function. */
+
+// ================== Capitalize the first letter of word(s) ===================
+// from codegrepper.com
+//capitalize only the first letter of the string. 
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1); // Using string.charAt() instead of string[] could be handy only in edge cases as its default index value is 0 and it tries to convert the index input into a number it can use, e.g. true == 1, 2.37 would be rounded down to 2, any letter would return the default 0 and 00 == 0
+}
+console.log(capitalizeFirstLetter("this is a string")); // This is a string
+// Or simpler
+const capFirstLetter = (string) => string[0].toUpperCase() + string.slice(1);
+console.log(capFirstLetter("this is a string")); // This is a string
+
+//capitalize all words of a string. 
+function capitalizeWords(string) {
+    return string.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+}; // The "?:" just means that it is a non-capture group and in this particular case it is actually unnecessary
+console.log(capitalizeWords("this is a string")); // This Is A String
+// Or
+const uppercaseWords = str => str.replace(/^(.)|\s+(.)/g, char => char.toUpperCase());
+console.log(uppercaseWords("this is a string")); // This Is A String
+
+// ================== Test the letter case ===================
+// from stackoverflow.com Abdennour TOUMI
+const isUpperCase = (string) => /^[A-Z]*$/.test(string); // 0 or more all capital letters
+console.log(isUpperCase('ALL')); // true
+console.log(isUpperCase('All')); // false
+// Or simpler
+const isUpCase = (string) => /^[A-Z]/.test(string); // First letter of string is capital
+console.log(isUpCase('a')); // false
+console.log(isUpCase('All')); // true
+console.log(isUpCase('ALL')); // true
+console.log(isUpCase('aLL')); // false

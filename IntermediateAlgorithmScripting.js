@@ -293,3 +293,260 @@ function pairElement(str) {
 console.log(pairElement("GCG"));
 console.log(pairElement("TTGAG"));
 console.log(pairElement("TTGbG"));
+
+// ================== Missing letters ===================
+// Find the missing letter in the passed letter range and return it. If all letters are present in the range, return undefined.
+
+// 1st successful w/console.logs
+function fearNotLetter(str) {
+    const alpha = 'abcdefghijklmnopqrstuvwxyz'.split('');
+    let strArr = str.split('');
+    let beginInd = alpha.indexOf(strArr[0]);
+    console.log(alpha.indexOf(strArr[0]));
+    let endInd = alpha.indexOf(strArr[strArr.length - 1]);
+    console.log(alpha.indexOf(strArr[strArr.length - 1]));
+    console.log(strArr.length - 1);
+    for (let i = beginInd; i < endInd; i++) {
+        console.log(alpha[i]);
+        if (strArr.indexOf(alpha[i]) < 0) {
+            return alpha[i];
+        }
+    }
+}
+// 2nd refined version of 1st
+function fearNotLetter(str) {
+    const alpha = 'abcdefghijklmnopqrstuvwxyz';
+    let beginInd = alpha.indexOf(str[0]);
+    let endInd = alpha.indexOf(str[str.length - 1]);
+    for (let i = beginInd; i < endInd; i++) {
+        if (str.indexOf(alpha[i]) < 0) {
+            return alpha[i];
+        }
+    }
+}
+console.log(fearNotLetter("abcde")); // undefined
+console.log(fearNotLetter("bcdf")); // e
+console.log(fearNotLetter("efghikl")); // j
+
+// Scattered thoughts of mine
+function fearNotLetter(str) {
+    // return alpha.find((lett) => !strArr.includes(lett));
+    const alpha = 'abcdefghijklmnopqrstuvwxyz'.split(''); // Maybe unnecessary
+    let strArr = str.split(''); // Maybe unnecessary
+    let test = arr[1].toLowerCase();
+    let target = arr[0].toLowerCase();
+    for (let i = 0; i < alpha.length; i++) {
+        console.log(strArr.indexOf(alpha[i])); // I added
+        if (strArr.indexOf(alpha[i]) < 0) {
+            return alpha[i];
+        }
+        return "Not";
+    }
+}
+
+// from fCC forum benjaminadk
+/* Explanation
+    1. So since the char-codes go in order I just compared the code of the current letter + 1 to the code of the next letter
+    2. If those two values aren’t equal I return the letter that should be there
+    3. If nothing qualifies for my if statement the function automatically returns undefined so I don’t even have to write that in the code
+    4. Having the loop stop at str.length-1 was key here
+Javascript just blows my mind sometimes. this was just the first thing that came to mind and the fact that it works makes me psyched to do more */
+// With console.logs added
+function fearNotLetter(str) {
+    for (let i = 0; i < str.length - 1; i++) {
+        console.log(str.charCodeAt(i) + 1);
+        console.log(str.charCodeAt(i + 1));
+        if (str.charCodeAt(i) + 1 !== str.charCodeAt(i + 1)) {
+            return String.fromCharCode(str.charCodeAt(i) + 1);
+        }
+    }
+}
+console.log(fearNotLetter("abcde"));
+console.log(fearNotLetter("bcdf"));
+console.log(fearNotLetter("efghikl"));
+
+// ================== Sorted Union ===================
+/* Write a function that takes two or more arrays and returns a new array of unique values in the order of the original provided arrays.
+In other words, all values present from all arrays should be included in their original order, but with no duplicates in the final array.
+The unique numbers should be sorted by their original order, but the final array should not be sorted in numerical order. */
+// 1st successful
+function uniteUnique(...arrs) {
+    let newArr = [];
+    let flatArr = arrs.flat();
+    for (let num of flatArr) {
+        if (!newArr.includes(num)) {
+            newArr.push(num);
+        }
+    }
+    return newArr;
+}
+// 2nd  better
+function uniteUnique(...arrs) {
+    let newArr = [];
+    let flatArr = arrs.flat();
+    return flatArr.filter(num => !newArr.includes(num) ? newArr.push(num) : null);
+}
+// 3rd better still
+function uniteUnique(...arrs) {
+    let flatArr = arrs.flat(); // Can't chain for some reason
+    return flatArr.filter((num, index) => flatArr.indexOf(num) === index);
+}
+// Or using the (formerly unknown) "Set". added May 24, 2022
+/* A Set is a collection of unique values. To remove duplicates from an array:
+    1. Convert an array of duplicates to a Set. The new Set will implicitly remove duplicate elements.
+    2. Convert the set back to an array. */
+// Like this
+function uniteUnique(...arrs) {
+    return [...new Set(arrs.flat())];
+}
+console.log(uniteUnique([1, 3, 2], [5, 2, 1, 4], [2, 1])); // [ 1, 3, 2, 5, 4 ]
+// Not this
+function uniteUnique(...arrs) {
+    return [new Set(arrs.flat())];
+}
+console.log(uniteUnique([1, 3, 2], [5, 2, 1, 4], [2, 1])); // [ Set(5) { 1, 3, 2, 5, 4 } ]
+
+// ================== Convert HTML Entities ===================
+// Convert the characters &, <, >, " (double quote), and ' (apostrophe), in a string to their corresponding HTML entities.
+// 1st successful
+function convertHTML(str) {
+    return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&apos;");
+}
+// from fCC forum EvanMorrison
+function convertHTML(str) {
+    var entities = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' }
+    return str.replace(/[&<>"']/g, function (match) {
+        return entities[match]
+    })
+}
+
+console.log(convertHTML('Stuff in "quotation marks"')); // Stuff in &quot;quotation marks&quot;
+console.log(convertHTML("abc")); // abc
+console.log(convertHTML("Dolce & Gabbana")); // Dolce &amp; Gabbana
+console.log(convertHTML("<>")); // &lt;&gt;
+
+// ================== Sum All Odd Fibonacci Numbers ===================
+/* Given a positive integer num, return the sum of all odd Fibonacci numbers that are less than or equal to num.
+The first two numbers in the Fibonacci sequence are 1 and 1. Every additional number in the sequence is the sum of the two previous numbers. The first six numbers of the Fibonacci sequence are 1, 1, 2, 3, 5 and 8.
+For example, sumFibs(10) should return 10 because all odd Fibonacci numbers less than or equal to 10 are 1, 1, 3, and 5. */
+
+// 0	1	1	2	3	5	8	13	21	34	55	89	144	233	377	610	987	1597	2584	4181	6765    etc.
+// 1st successful
+function sumFibs(num) {
+    let sum = 0;
+    let prev = 0;
+    let next = 1;
+    let nextNum = 1;
+    while (nextNum <= num) {
+        if (nextNum % 2 !== 0) {
+            sum += nextNum;
+        }
+        nextNum = prev + next;
+        if (nextNum > num) {
+            return sum;
+        }
+        prev = next;
+        next = nextNum;
+    }
+}
+// 2nd, ok. Used a while loop with arr.reduce() for this
+function sumFibs(num) {
+    let prev = 0, next = 1, nextNumSum = 1;
+    let arr = [];
+    while (nextNumSum <= num) {
+        arr.push(nextNumSum);
+        nextNumSum = prev + next;
+        prev = next;
+        next = nextNumSum;
+    }
+    return arr.reduce((sum, n) => n % 2 !== 0 ? sum + n : sum + 0, 0);
+}
+
+console.log(sumFibs(10)); // 10
+console.log(sumFibs(20)); // 23
+
+//from fCC forum forkerino, a ternary recursive solution
+const sumFibs = (n, prev = 0, curr = 1, sum = 0) => curr > n ? sum : sumFibs(n, curr, prev + curr, sum + (curr % 2 && curr));
+
+// from fCC forum johnlreavis, using a nested recursive function with a while loop
+/* The input ‘b’ is the number in the fibonacci sequence. Start calling the recursive function with 0 and 1, to get 1,1,2…
+Otherwise counter and while loop are the same as basic solution.*/
+function sumFibs(num) {
+    let oddsum = 0;
+    function fib(a, b) {
+        while (b <= num) {
+            if (b % 2 === 1) {
+                oddsum += b;
+            }
+            return fib(b, a + b);
+        }
+    }
+    fib(0, 1);
+    return oddsum;
+}
+
+console.log(sumFibs(14)); // 23
+console.log(sumFibs(21)); // 44
+
+// ================== Sum All Primes ===================
+/* A prime number is a whole number greater than 1 with exactly two divisors: 1 and itself. For example, 2 is a prime number because it is only divisible by 1 and 2. In contrast, 4 is not prime since it is divisible by 1, 2 and 4.
+Rewrite sumPrimes so it returns the sum of all prime numbers that are less than or equal to num. */
+
+function sumPrimes(num) {
+    const primes = [2];
+    for (let n = 3; n <= num; n += 2) {
+        if (primes.every((prime) => n % prime != 0)) {
+            primes.push(n);
+        }
+    }
+    console.log(primes);
+    return primes.reduce((sum, num) => sum + num, 0);
+}
+
+console.log(sumPrimes(30));
+
+/* The guts of the above solution is this from StackOverflow.com "weston" answered April 14, 2015
+How to find prime numbers between 0 - 100?
+A number is a prime if it is not divisible by other primes lower than the number in question.
+    1. This builds up a primes array.
+    2. Tests each new odd candidate n for division against existing found primes lower than n.
+    3. As an optimization it does not consider even numbers and prepends 2 as a final step (prepending unnecessary, just initialize the "primes" array with 2 in it). */
+var primes = [];
+for (var n = 3; n <= 100; n += 2) {
+    if (primes.every(function (prime) { return n % prime != 0 })) {
+        primes.push(n);
+    }
+}
+primes.unshift(2);
+
+// fCC, supposedly faster for large-ish numbers when compared to my solution type, because this one doesn't keep/add-on-to/read an array
+function sumPrimes(num) {
+    // Helper function to check primality
+    function isPrime(num) {
+        for (let i = 2; i <= Math.sqrt(num); i++) {
+            if (num % i == 0)
+                return false;
+        }
+        return true;
+    }
+    // Check all numbers for primality
+    // let sum = 0;
+    // for (let i = 2; i <= num; i++) {
+    //     if (isPrime(i))
+    //         sum += i;
+    // }
+
+    // My revised version of the section above, @ 1/2 as many iterations
+    let sum = 2;
+    for (let i = 3; i <= num; i += 2) {
+        if (isPrime(i))
+            sum += i;
+    }
+    return sum;
+}
+console.log(sumPrimes(30));

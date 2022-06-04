@@ -328,22 +328,6 @@ console.log(fearNotLetter("abcde")); // undefined
 console.log(fearNotLetter("bcdf")); // e
 console.log(fearNotLetter("efghikl")); // j
 
-// Scattered thoughts of mine
-function fearNotLetter(str) {
-    // return alpha.find((lett) => !strArr.includes(lett));
-    const alpha = 'abcdefghijklmnopqrstuvwxyz'.split(''); // Maybe unnecessary
-    let strArr = str.split(''); // Maybe unnecessary
-    let test = arr[1].toLowerCase();
-    let target = arr[0].toLowerCase();
-    for (let i = 0; i < alpha.length; i++) {
-        console.log(strArr.indexOf(alpha[i])); // I added
-        if (strArr.indexOf(alpha[i]) < 0) {
-            return alpha[i];
-        }
-        return "Not";
-    }
-}
-
 // from fCC forum benjaminadk
 /* Explanation
     1. So since the char-codes go in order I just compared the code of the current letter + 1 to the code of the next letter
@@ -550,3 +534,267 @@ function sumPrimes(num) {
     return sum;
 }
 console.log(sumPrimes(30));
+
+
+
+
+
+// ================== Steamroller ===================
+// Flatten a nested array. You must account for varying levels of nesting.
+// Several very basic options of my own which assumes not more than one array per item
+function steamrollArray(arr) {
+    console.log(arr);
+    console.log(...arr);
+    for (let i = 0; i < arr.length; i++) {
+        arr = [].concat(...arr);
+    }
+    return arr;
+}
+function steamrollArray(arr) {
+    for (let item of arr) {
+        arr = [].concat(...arr);
+    }
+    return arr;
+}
+// Final
+function steamrollArray(arr) {
+    arr.forEach(item => arr = [].concat(...arr));
+    return arr;
+}
+// fCC, a ternary recursive solution using concat and the spread operator
+/* Code Explanation
+    1. Use spread operator to concatenate each element of arr with an empty array
+    2. Use Array.some() method to find out if the new array contains an array still
+    3. If it does, use recursion to call steamrollArray again, passing in the new array to repeat the process on the arrays that were deeply nested
+    4. If it does not, return the flattened array */
+function steamrollArray(arr) {
+    const flat = [].concat(...arr);
+    return flat.some(Array.isArray) ? steamrollArray(flat) : flat;
+}
+
+console.log(steamrollArray([1, {}, [3, [[4]]]]));
+console.log(steamrollArray([1, [2], [3, [[4]]]]));
+
+// ================== Smallest Common Multiple ===================
+// Find the smallest common multiple of the provided parameters that can be evenly divided by both, as well as by all sequential numbers in the range between these parameters. The range will be an array of two numbers that will not necessarily be in numerical order.
+// 1st successful, good but collects the range in an array (prob bad for large numbers)
+function smallestCommons(arr) {
+    arr.sort((a, b) => a - b); // Sort the array in ascending numerical order
+    let big = arr[arr.length - 1]; // big is equal to the biggest integer in the array
+    let n = arr[1] - 1; // n is equal to the next smaller integer to splice into the array
+    while (n > arr[0]) { // while n is bigger than the smallest number in the array...
+        arr.splice(1, 0, n); // splice it in and...
+        n--; // decrement it by one until the array is full
+    }
+    while (arr.every(num => big % num == 0) == false) { // while every num in arr is NOT evenly divisible by big...
+        big += arr[arr.length - 1]; // increment big by its initial value
+    }
+    return big; // after the while loop returns true, return the final big
+}
+// 2nd, better
+// All multiples of a consecutive number range are always even so...
+function smallestCommons(arr) {
+    arr.sort((a, b) => a - b); // Sort the array in ascending numerical order
+    let big = arr[1], small = arr[0]; // big and small are equal to their respective integers in the array
+    let multiple = big; // multiple is initialized with the value of big
+    let incr = 0; // Increment counter
+    for (let i = big; i >= small; i--) { // for each number in range...
+        incr++;
+        if (multiple % i !== 0) { // if multiple modulus of i is not even...
+            multiple += big; // increment multiple by its initial value and...
+            i = big; // restart the for loop and counter
+        }
+        if (multiple % 2 === 1) { // then if multiple is an odd number...
+            multiple += big; // increment again (now an even number)
+        }
+    }
+    console.log(`increment = ${incr}`);
+    return multiple; // after the while loop returns true, return the final big
+}
+
+// from fCC forum Jan Egbers (I added the increment counter)
+function smallestCommons(arr) {
+    var max = Math.max(arr[0], arr[1]);
+    var min = Math.min(arr[0], arr[1]);
+    var mltple = max;
+    let incr = 0; // Increment counter
+
+    for (var i = max; i >= min; i--) {
+        incr++; // counter plus 1
+        if (mltple % i !== 0) {
+            mltple += max;
+            i = max;
+        }
+    }
+
+    console.log(`increment = ${incr}`);
+    return mltple;
+}
+
+// from fCC forum forkerino. I don't fully understand this yet
+function smallestCommons(arr) {
+    const min = Math.min(arr[0], arr[1]),
+        max = Math.max(arr[0], arr[1]),
+        range = [...Array(max + 1).keys()].slice(min); // Uses the spread operator, Array constructor, array.keys() and .slice() to make an array of the number range
+    return range.reduce(function (a, b) {
+        for (let i = a; i <= a * b; i += a) {
+            if (i % b === 0) return i;
+        }
+    });
+}
+console.log(smallestCommons([1, 5])) // 60
+console.log(smallestCommons([7, 5])); // 210
+console.log(smallestCommons([2, 10])); // 2520
+console.log(smallestCommons([1, 13])); // 360360
+
+// ================== Drop it ===================
+// Given the array arr, iterate through and remove each element starting from the first element (the 0 index) until the function func returns true when the iterated element is passed through it. Then return the rest of the array once the condition is satisfied, otherwise, arr should be returned as an empty array.
+// 1st successful
+function dropElements(arr, func) {
+    for (let num of arr) {
+        console.log(`num = ${num}`, `index = ${arr.indexOf(num)}`, func(num));
+        if (func(num) === true) {
+            return arr.slice(arr.indexOf(num));
+        }
+    }
+    return [];
+}
+
+// fCC (I compacted it)
+function dropElements(arr, func) {
+    while (arr.length > 0 && !func(arr[0])) arr.shift();
+    return arr;
+}
+// fCC, a ternary operator slice solution using .findIndex()
+/* Code Explanation
+    1. Use ES6 findIndex() function to find the index of the element that passes the function condition
+    2. Slice the array from the found index until the end
+    3. If the condition is not met against any of the elements ‘findIndex’ will return -1 which messes up the input to slice(). So in this case we use a conditional operator which returns false instead of -1. The ternary operator returns the found index of required elements when the condition is true, and the length of the array otherwise so that the return value is an empty array. */
+function dropElements(arr, func) {
+    let sliceIndex = arr.findIndex(func);
+    return arr.slice(sliceIndex >= 0 ? sliceIndex : arr.length);
+}
+// from fCC forum okanatabag
+function dropElements(arr, func) {
+    return arr.slice(arr.find(func) ? arr.indexOf(arr.find(func)) : arr.length);
+}
+// from fCC forum BMars
+function dropElements(arr, func) {
+    var index = arr.map(func).indexOf(true);
+    console.log(index);
+    return (index === -1 ? [] : arr.slice(index));
+}
+// from fCC forum lbarjak, Wow, a little deep yet
+dropElements = (arr, func, s = false) => arr.filter(a => { if (func(a)) s = true; return s; });
+
+console.log(dropElements([1, 2, 3, 4], function (n) { return n > 5; })) // []
+console.log(dropElements([1, 2, 3, 4], function (n) { return n >= 3; })); // [3, 4]
+console.log(dropElements([1, 2, 3], function (n) { return n < 3; })); // [1, 2, 3]
+console.log(dropElements([0, 1, 0, 1], function (n) { return n === 1; })); // [1, 0, 1]
+
+// ================== Binary Agents ===================
+// Return an English translated sentence of the passed binary string. The binary string will already be space separated.
+// 1st successful
+function binaryAgent(str) {
+    let binArr = str.split(' ');
+    // console.log(binArr);
+    let english = [];
+    // console.log(parseInt(strArr[0], 2));
+    // console.log(String.fromCharCode(bin));
+    for (let bin of binArr) {
+        english.push(String.fromCharCode(parseInt(bin, 2))); // A spread array can be passed into fromCharCode but not into parseInt
+    }
+    return english.join('');
+}
+// 2nd, much better
+/* Code explanation
+    1. Split the string into an array at each space
+    2. Then map each binary
+        a. First turn it to ascii code with the string constructor fromCharCode()...
+        b. Using parseInt() with the first param of the binary number and the optional second argument for radix (base of the number) of 2 (for converting from binary to decimal)
+        c. All thats left is to use .join() and then we have our english */
+function binaryAgent(str) {
+    return str.split(' ').map(bin => String.fromCharCode(parseInt(bin, 2))).join('');
+}
+// from fCC forum dwrz, using regex
+function binaryAgent(str) {
+    return str.replace(/[0-9]\w+\s|[0-9]\w+\S/g, function (b) {
+        return String.fromCharCode(parseInt(b, 2));
+    });
+}
+// from fCC forum keissar3, using regex (I slightly refactored)
+function binaryAgent(str) {
+    function binto(num) {
+        return String.fromCharCode(parseInt(num, 2));
+    }
+    return str.replace(/\d{8}\s?/g, binto);
+}
+
+console.log(binaryAgent("01000001 01110010 01100101 01101110 00100111 01110100 00100000 01100010 01101111 01101110 01100110 01101001 01110010 01100101 01110011 00100000 01100110 01110101 01101110 00100001 00111111")); // Aren't bonfires fun!?
+
+// ================== Everything Be True ===================
+/* Check if the predicate (second argument) is truthy on all elements of a collection (first argument). In other words, you are given an array collection of objects. The predicate pre will be an object property and you need to return true if its value is truthy. Otherwise, return false. */
+// 1st successful
+function truthCheck(collection, pre) {
+    return collection.every(obj => obj[pre]); // If it ISN'T 'falsy', then it IS truthy and .every() will return the boolean accordingly
+}
+// 2nd, minimized
+const truthCheck = (collection, pre) => collection.every(obj => obj[pre]);
+
+console.log(truthCheck([{ name: "Quincy", role: "Founder", isBot: false }, { name: "Naomi", role: "", isBot: false }, { name: "Camperbot", role: "Bot", isBot: true }], "isBot")); // false
+console.log(truthCheck([{ name: "Quincy", role: "Founder", isBot: false }, { name: "Naomi", role: "", isBot: false }, { name: "Camperbot", role: "Bot", isBot: true }], "name")); // true
+console.log(truthCheck([{ name: "Quincy", role: "Founder", isBot: false }, { name: "Naomi", role: "", isBot: false }, { name: "Camperbot", role: "Bot", isBot: true }], "role")); // false
+console.log(truthCheck([{ name: "Pikachu", number: 25, caught: 3 }, { name: "Togepi", number: 175, caught: 1 }], "number")); // true
+console.log(truthCheck([{ name: "Pikachu", number: 25, caught: 3 }, { name: "Togepi", number: 175, caught: 1 }, { name: "MissingNo", number: NaN, caught: 0 }], "caught")); // false
+
+// ================== Arguments Optional ===================
+// Create a function that sums two arguments together. If only one argument is provided at first, then return a function that expects one argument and returns the sum.
+// 1st successful
+function addTogether(...args) {
+    let sum = 0;
+    function sumItUp(args) {
+        if (args.every(num => typeof num == 'number')) {
+            for (let para of args) {
+                sum += para;
+            }
+            return sum;
+        } else return undefined;
+    }
+    if (args.length == 1) {
+        if (typeof args[0] !== 'number') return undefined; // allows for initial input error
+        return function addTwoNums(param) {
+            args.push(param);
+            return sumItUp(args);
+        }
+    } if (args.length == 2) return sumItUp(args);
+}
+
+// 2nd, better
+function addTogether(...args) {
+    const sumItUp = (args) => args.reduce((sum, para) => args.every(num => typeof num == 'number') ? sum + para : undefined);
+    if (args.length == 1) {
+        if (typeof args[0] !== 'number') return undefined; // allows for initial input error
+        return function addTwoNums(param) {
+            args.push(param);
+            return sumItUp(args);
+        }
+    } if (args.length == 2) return sumItUp(args);
+}
+
+// from fCC forum TheMightyPenguin, a recursive solution
+function addTogether() {
+    const [a, b] = arguments;
+    if (typeof a !== 'number' || (b && typeof b !== 'number')) {
+        return undefined;
+    }
+    if (b) {
+        return a + b;
+    }
+    return c => addTogether(a, c);
+}
+
+console.log(addTogether(2, "3")); // undefined
+console.log(addTogether(2, 3)); // 5
+console.log(addTogether(5)(7)); // 12
+console.log(addTogether(2)([3])); // undefined
+console.log(addTogether("https://www.youtube.com/watch?v=dQw4w9WgXcQ")); // undefined

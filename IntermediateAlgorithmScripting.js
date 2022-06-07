@@ -781,7 +781,7 @@ function addTogether(...args) {
     } if (args.length == 2) return sumItUp(args);
 }
 
-// from fCC forum TheMightyPenguin, a recursive solution
+// from fCC forum TheMightyPenguin, a recursive solution, but max of 2 arguments
 function addTogether() {
     const [a, b] = arguments;
     if (typeof a !== 'number' || (b && typeof b !== 'number')) {
@@ -792,9 +792,117 @@ function addTogether() {
     }
     return c => addTogether(a, c);
 }
+// from fCC forum wiseman, similar to the one above, recursive, but max of 2 arguments
+function addTogether(a, b) {
+    if (![...arguments].every(arg => typeof arg === "number")) {
+        return
+    }
+    if (b) {
+        return a + b
+    } else {
+        return function (y, x = a) {
+            return addTogether(y, x)
+        }
+    }
+}
 
+console.log(addTogether(3)(5)(7)); // 15
 console.log(addTogether(2, "3")); // undefined
 console.log(addTogether(2, 3)); // 5
 console.log(addTogether(5)(7)); // 12
 console.log(addTogether(2)([3])); // undefined
 console.log(addTogether("https://www.youtube.com/watch?v=dQw4w9WgXcQ")); // undefined
+
+// ================== Make a Person ===================
+/* Fill in the object constructor with the following methods below:
+getFirstName()
+getLastName()
+getFullName()
+setFirstName(first)
+setLastName(last)
+setFullName(firstAndLast) */
+const Person = function (firstAndLast) {
+    // Only change code below this line
+    let nameArr = firstAndLast.split(' ');
+    let firstName = nameArr[0];
+    let lastName = nameArr[1];
+    this.getFirstName = () => firstName;
+    this.getLastName = () => lastName;
+    this.getFullName = () => `${firstName} ${lastName}`;
+    this.setFirstName = (first) => firstName = first;
+    this.setLastName = (last) => lastName = last;
+    this.setFullName = (firstAndLast) => {
+        nameArr = firstAndLast.split(' ');
+        firstName = nameArr[0];
+        lastName = nameArr[1];
+        return `${firstName} ${lastName}`;
+    }
+}
+// fCC (I updated, mostly for ES6 arrow function style)
+const Person = function (firstAndLast) {
+    let fullName = firstAndLast;
+    // Getters
+    this.getFirstName = () => fullName.split(" ")[0];
+    this.getLastName = () => fullName.split(" ")[1];
+    this.getFullName = () => fullName;
+    // Setters
+    this.setFirstName = (first) => fullName = `${first} ${fullName.split(" ")[1]}`;
+    this.setLastName = (last) => fullName = `${fullName.split(" ")[0]} ${last}`;
+    this.setFullName = (firstAndLast) => fullName = firstAndLast;
+};
+
+const bob = new Person('Bob Ross');
+
+console.log(bob);
+console.log(bob.getFullName()); // Bob Ross
+console.log(bob.getFirstName()); // Bob
+console.log(bob.getLastName()); // Ross
+console.log(bob.firstName); // undefined
+
+bob.setFullName("Haskell Curry");
+console.log(bob.getFirstName()); // Haskell
+bob.setLastName("Curry");
+console.log(bob.getFullName()); // Bob Curry
+bob.setFirstName("Haskell");
+console.log(bob.getFullName()); // Haskell Ross
+
+// ================== Map the Debris ===================
+// 
+// Mine
+function orbitalPeriod(arr) {
+    const GM = 398600.4418; // Gravitational mass?
+    const earthRadius = 6367.4447; // In kilometers
+    return arr.map((satelite) => ({
+        name: satelite.name,
+        orbitalPeriod: Math.round((2 * Math.PI) * Math.sqrt((satelite.avgAlt + earthRadius) ** 3 / GM)) // Calculates the time in seconds. '** 3' is the same as Math.pow( ,3)
+    }));
+}
+// fCC, which uses some variables inside of .map()
+function orbitalPeriod(arr) {
+    const GM = 398600.4418;
+    const earthRadius = 6367.4447;
+    return arr.map(({ name, avgAlt }) => {
+        const earth = earthRadius + avgAlt;
+        const orbitalPeriod = Math.round(2 * Math.PI * Math.sqrt(Math.pow(earth, 3) / GM));
+        return { name, orbitalPeriod };
+    });
+}
+
+console.log(orbitalPeriod([{ name: "sputnik", avgAlt: 35873.5553 }])); // [ { name: 'sputnik', orbitalPeriod: 86400 } ]
+console.log(orbitalPeriod([{ name: "iss", avgAlt: 413.6 }, { name: "hubble", avgAlt: 556.7 }, { name: "moon", avgAlt: 378632.553 }])); /* [
+    { name: 'iss', orbitalPeriod: 5557 },
+    { name: 'hubble', orbitalPeriod: 5734 },
+    { name: 'moon', orbitalPeriod: 2377399 }
+  ] */
+
+// The math formula
+function calc() {
+    const GM = 398600.4418; // Earth's GM (the standard gravitational parameter)
+    const earthRadius = 6367.4447; // in kilometers
+    let avgAlt = 35873.5553; // Sputnik satelite altitude above the earth
+    let a = earthRadius + avgAlt; // 'a' is the orbit's semi-major axis
+    // Kepler's Third Law: (orbital period:)T = 2 * pi * the square root of ('a' to the 3rd power / GM)
+    let time = Math.round(2 * Math.PI * Math.sqrt(a ** 3 / GM));
+    return time; // in seconds
+}
+console.log(calc());

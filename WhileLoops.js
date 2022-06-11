@@ -66,3 +66,26 @@ function copyMachine(arr, num) {
 }
 // Array and number of times to copy into empty array
 console.log(copyMachine([true, false, true], 2));
+
+// Sum all odd Fibonacci numbers
+// The Fibonacci sequence, in which each number is the sum of the two preceding ones. Return the sum of all odd Fibonacci numbers that are less than or equal to num.
+
+// from fCC forum johnlreavis
+/*The input ‘b’ is the number in the fibonacci sequence. Start calling the recursive function with 0 and 1, to get 1,1,2…
+Otherwise counter and while loop are the same as basic solution.*/
+function sumFibs(num) {
+    let oddsum = 0;
+    function fib(a, b) {
+        while (b <= num) {
+            if (b % 2 === 1) {
+                oddsum += b;
+            }
+            return fib(b, a + b);
+        }
+    }
+    fib(0, 1);
+    return oddsum;
+}
+
+console.log(sumFibs(10)); // 10
+console.log(sumFibs(20)); // 23

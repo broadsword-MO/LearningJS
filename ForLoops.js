@@ -44,13 +44,17 @@ function filteredArray(arr, elem) {
     let newArr = []; // Only change code below this line
     for (let i = 0; i < arr.length; i++) {
         console.log('arr[i] = ' + arr[i]);
-        if (arr[i].indexOf(elem) == -1) {
+        if (arr[i].indexOf(elem) == -1) { // Or
+        // if (!arr[i].includes(elem)) {
             newArr.push(arr[i]);
             console.log('newArr = ' + newArr);
         }
     }
     return newArr; // Only change code above this line
 }
+// Or using ES6 methods instead
+const filteredArray = (arr, elem) => arr.filter(subArr => !subArr.includes(elem));
+
 console.log(filteredArray([[3, 2, 3], [1, 6, 2], [3, 13, 26], [19, 3, 9]], 3)); // [ [ 1, 6, 2 ] ]
 
 // Accomplishes the same as below
@@ -115,7 +119,6 @@ const users = {
 }
 
 function countOnline(usersObj) {
-    // Only change code below this line
     let result = 0;
     for (let user in usersObj) {
         if (usersObj[user].online == true) {
@@ -123,7 +126,6 @@ function countOnline(usersObj) {
         }
     }
     return result;
-    // Only change code above this line
 }
 
 console.log(countOnline(users)); // 1
@@ -138,3 +140,105 @@ function bouncer(arr) {
     return newArr;
 }
 console.log(bouncer([7, "ate", "", false, 9])); // [ 7, 'ate', 9 ]
+
+// Compare two arrays and return a new array with any items only found in one of the two given arrays, but not both.
+function diffArray(arr1, arr2) {
+    const newArr = [];
+    for (let num of arr1) {
+        if (arr2.indexOf(num) === -1) {
+            newArr.push(num);
+        }
+    }
+    for (let num of arr2) {
+        if (arr1.indexOf(num) === -1) {
+            newArr.push(num);
+        }
+    }
+    return newArr;
+}
+
+console.log(diffArray([1, 2, 3, 5], [1, 2, 3, 4, 5])); // [ 4 ]
+
+// Make a function that looks through an array of objects (first argument) and returns an array of all objects that have matching name and value pairs (second argument).
+function whatIsInAName(collection, source) {
+    const arr = [];
+    let sourceKeys = Object.keys(source);
+    // console.log(sourceKeys);
+    collection.forEach(function (obj) {
+        // let objKeys = Object.keys(obj);
+        // console.log(objKeys);
+        for (let key of sourceKeys) {
+            // console.log(key);
+            // console.log(obj[key]);
+            // console.log(source[key]);
+            if (obj[key] !== source[key]) {
+                return false;
+            }
+        }
+        arr.push(obj);
+    })
+    return arr;
+}
+
+console.log(whatIsInAName([{ "apple": 1, "bat": 2 }, { "bat": 2 }, { "apple": 1, "bat": 2, "cookie": 2 }], { "apple": 1, "bat": 2 })); // [ { apple: 1, bat: 2 }, { apple: 1, bat: 2, cookie: 2 } ]
+
+/* The DNA strand is missing the pairing element. Take each character, get its pair, and return the results as a 2D array.
+Base pairs are a pair of AT and CG. Match the missing element to the provided character.
+Return the provided character as the first element in each array.
+For example, for the input GCG, return [["G", "C"], ["C","G"], ["G", "C"]]
+The character and its pair should be paired up in an array, and all the arrays grouped into one encapsulating array. */
+function pairElement(str) {
+    const strArr = [...str];
+    let dnaArr = [];
+    for (let elem of strArr) {
+        if (elem === "A") dnaArr.push(["A", "T"]);
+        else if (elem === "T") dnaArr.push(["T", "A"]);
+        else if (elem === "C") dnaArr.push(["C", "G"]);
+        else if (elem === "G") dnaArr.push(["G", "C"]);
+        else return "DNA strand input error";
+    }
+    return dnaArr;
+}
+// And hybrid with a "for of" array loop and "switch case"
+function pairElement(str) {
+    const strArr = [...str];
+    let dnaArr = [];
+    for (let elem of strArr) {
+        switch (elem) {
+            case 'A': dnaArr.push(["A", "T"]);
+                break;
+            case 'T': dnaArr.push(["T", "A"]);
+                break;
+            case 'C': dnaArr.push(["C", "G"]);
+                break;
+            case 'G': dnaArr.push(["G", "C"]);
+        }
+    }
+    return dnaArr;
+}
+
+console.log(pairElement("TTGAG")); // [ [ 'T', 'A' ], [ 'T', 'A' ], [ 'G', 'C' ], [ 'A', 'T' ], [ 'G', 'C' ] ]
+
+// Write a function that takes two or more arrays and returns a new array of unique values in the order of the original provided arrays.
+function uniteUnique(...arrs) {
+    let newArr = [];
+    let flatArr = arrs.flat();
+    for (let num of flatArr) {
+        if (!newArr.includes(num)) {
+            newArr.push(num);
+        }
+    }
+    return newArr;
+}
+
+console.log(uniteUnique([1, 3, 2], [5, 2, 1, 4], [2, 1])); // [ 1, 3, 2, 5, 4 ]
+
+// Flatten a nested array. You must account for varying levels of nesting.
+function steamrollArray(arr) {
+    for (let item of arr) {
+        arr = [].concat(...arr);
+    }
+    return arr;
+}
+
+console.log(steamrollArray([1, [2], [3, [[4]]]]));

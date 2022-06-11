@@ -24,7 +24,7 @@ console.log(rot13("SERR PBQR PNZC"));
 console.log(rot13("SERR CVMMN!"));
 
 // A more complete and versatile solution of mine
-function encrytption(str, cipherKey) {
+function encryption(str, cipherKey) {
     let strArr = str.split('');
     let newStr = [];
     const alphaLower = 'abcdefghijklmnopqrstuvwxyz';
@@ -42,13 +42,18 @@ function encrytption(str, cipherKey) {
     }
     return newStr.join('')
 }
-
-console.log(encrytption('freeCodeCamp is great!', 17));
-console.log(encrytption('wivvTfuvTrdg zj xivrk!', -17));
-console.log(encrytption('abcdefghijklmnopqrstuvwxyz', 6));
-console.log(encrytption('ghijklmnopqrstuvwxyzabcdef', -6));
-console.log(encrytption('This, that and the other!', 3));
-console.log(encrytption('Wklv, wkdw dqg wkh rwkhu!', -3));
-console.log(encrytption('This, that and the other!', 13));
-console.log(encrytption('Guvf, gung naq gur bgure!', -13));
+function decrypt(str) {
+    for (let i = 1; i <= 26; i++) {
+        console.log(encryption(str, i),`key = ${i}`);
+    } return 'done';
+}
+console.log(decrypt('wivvTfuvTrdg zj xivrk!'));
+console.log(encryption('freeCodeCamp is great!', 17));
+console.log(encryption('wivvTfuvTrdg zj xivrk!', -17));
+console.log(encryption('abcdefghijklmnopqrstuvwxyz', 6));
+console.log(encryption('ghijklmnopqrstuvwxyzabcdef', -6));
+console.log(encryption('This, that and the other!', 3));
+console.log(encryption('Wklv, wkdw dqg wkh rwkhu!', -3));
+console.log(encryption('This, that and the other!', 13));
+console.log(encryption('Guvf, gung naq gur bgure!', -13));
 

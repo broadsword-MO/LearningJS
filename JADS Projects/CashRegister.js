@@ -10,7 +10,42 @@ Return {status: "CLOSED", change: [...]} with cash-in-drawer as the value for th
 
 Otherwise, return {status: "OPEN", change: [...]}, with the change due in coins and bills, sorted in highest to lowest order, as the value of the change key. */
 
+// Initial, didn't quite work all the way
+function checkCashRegister(price, cash, cid) {
+    let cidArr = cid.reverse();
+    let change = 0;
+    let changeArr = [];
+    const changeDue = cash - price;
+    const cidTotal = cid.reduce((total, money) => total + money[1], 0);
+    const map = { 'ONE HUNDRED': 100, 'TWENTY': 20, 'TEN': 10, 'FIVE': 5, 'ONE': 1, 'QUARTER': .25, 'DIME': .10, 'NICKEL': .05, 'PENNY': .01 };
 
+    function makeChange(arr) {
+        let currencyTotal = arr[1];
+        let currency = map[arr[0]];
+        const changeArrTotal = changeArr.reduce((total, money) => total + money[1], 0)
+        if (changeDue >= currency && currencyTotal > 0 && changeDue > changeArrTotal) {
+            while (change < changeDue && currencyTotal > 0) {
+                if (change + currency <= changeDue) {
+                    change += currency;
+                    currencyTotal -= currency;
+                }
+            }
+            changeArr.push([arr[0], change]);
+        }
+        return changeArr;
+    }
+    if (changeDue == cidTotal) return { status: "CLOSED", change: cid.reverse() };
+    for (let subArr of cidArr) {
+        makeChange(subArr);
+    }
+    if (changeDue > cidTotal || change != changeDue) {
+        return { status: "INSUFFICIENT_FUNDS", change: [] };
+    }
+
+    else return { status: "OPEN", change: changeArr };
+}
+
+// Current, almost works completely
 function checkCashRegister(price, cash, cid) {
     let cidArr = cid.reverse(); // This mutates the original and may mess with some results
     // console.log(cidArr);

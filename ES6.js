@@ -131,12 +131,12 @@ class Thermostat {
 // Only change code above this line
 
 const thermos = new Thermostat(76); // Setting in Fahrenheit scale
-console.log(thermos);
+console.log(thermos); // Thermostat { _fahrTemp: 76 }
 let temp = thermos.temperature; // 24.44 in Celsius
-console.log(temp);
+console.log(temp); // 24.444444444444443
 thermos.temperature = 26;
 temp = thermos.temperature; // 26 in Celsius
-console.log(temp);
+console.log(temp); // 26
 
 
 // ---------------------------------------------

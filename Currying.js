@@ -58,7 +58,7 @@ function add(x) {
 }
 console.log(add(10)(20)(30)); // 60
 
-// ================== Arguments Optional ===================
+// ================== Arguments Optional lesson ===================
 // Create a function that sums two arguments together. If only one argument is provided at first, then return a function that expects one argument and returns the sum.
 // 1st successful
 function addTogether(...args) {
@@ -112,7 +112,7 @@ function addTogether(...args) {
     } if (args.length == 2) return sumItUp(args);
 }
 
-// from fCC forum TheMightyPenguin, a recursive solution
+// from fCC forum TheMightyPenguin, a recursive solution, only accepts 2 arguments
 function addTogether() {
     const [a, b] = arguments;
     if (typeof a !== 'number' || (b && typeof b !== 'number')) {
@@ -149,7 +149,7 @@ const myFunction = makeFunction();
 myFunction(); // TK
 
 // ================== from Javascript.info/currying-partials ===================
-// A recursive solution that takes a function as a parameter, and that function can have an indefinite number of parameters, one or more at a time
+// A recursive solution that takes some other function as a parameter, and that function can have an indefinite number of parameters, one or more at a time
 function curry(func) {
     return function curried(...args) {
         console.log(`args = ${args}`);
@@ -175,3 +175,57 @@ console.log(curriedSum(1, 2, 3)); // 6, still callable normally
 console.log(curriedSum(1, 2)(3)); // 6, currying of 2nd arg
 console.log(curriedSum(1)(2, 3)); // 6, currying of 1st arg
 console.log(curriedSum(1)(2)(3)); // 6, full currying
+
+// A test, getting really close
+function addTogether(a, ...b) {
+    let sum = a;
+    b = b.flat();
+    console.log(`initial sum = ${sum}`);
+    console.log(b);
+    // if (typeof a !== 'number' || (b && typeof b !== 'number')) {
+    //     return undefined;
+    // }
+    if (b) {
+        b.forEach(num => sum += num);
+        // sum += args;
+        console.log(`forEach sum = ${sum}`);
+        // return sum; // doesn't work right
+    }
+    return (c, ...d) => addTogether(a = sum, c, d);
+    return sum; // Needs help here
+}
+console.log(addTogether(1, 2, 3)); // 6, still callable normally
+console.log(addTogether(1, 2)(3)); // 6, currying of 2nd arg
+console.log(addTogether(1)(2, 3)); // 6, currying of 1st arg
+console.log(addTogether(1)(2)(3)); // 6, full currying
+
+// Another test
+function addTogether(...args) {
+    console.log(args);
+    const sumItUp = (args) => args.reduce((sum, param) => args.every(num => typeof num == 'number') ? sum + param : undefined);
+    if (args.length == 1) {
+        return function addTwoNums(param) {
+            args.push(param);
+            return sumItUp(args);
+        }
+    } if (args.length > 1) return sumItUp(args);
+}
+
+
+console.log(addTogether(5)(7)); // 12
+console.log(addTogether(2, "3")); // undefined
+console.log(addTogether(2, 3)); // 5
+console.log(addTogether(2)([3])); // undefined
+
+function filteredArray(arr, elem) {
+    let newArr = [];
+    for (let i = 0; i < arr.length; i++) {
+        if (!arr[i].includes(elem)) {
+            newArr.push(arr[i]);
+        }
+    }
+    return newArr;
+}
+const filteredArray = (arr, elem) => arr.filter(subArr => !subArr.includes(elem));
+console.log(filteredArray([[3, 2, 3], [1, 6, 2], [3, 13, 26], [19, 3, 9]], 3)); // [ [ 1, 6, 2 ] ]
+

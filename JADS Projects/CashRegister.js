@@ -10,7 +10,7 @@ Return {status: "CLOSED", change: [...]} with cash-in-drawer as the value for th
 
 Otherwise, return {status: "OPEN", change: [...]}, with the change due in coins and bills, sorted in highest to lowest order, as the value of the change key. */
 
-// Initial, didn't quite work all the way
+// Initial, doesn't quite work all the way
 function checkCashRegister(price, cash, cid) {
     let cidArr = cid.reverse();
     let change = 0;
@@ -62,7 +62,7 @@ function checkCashRegister(price, cash, cid) {
     // function round(num) {
     //     return +(Math.round(num + 'e+2') + 'e-2')
     // } // Or my ES6 version
-    const round = (num) => +(Math.round(num + "e+2") + "e-2");
+    const round = (num) => +(Math.round(num + "e+2") + "e-2"); // Rounds to two decimal places
 
     function makeChange(arr) {
         let change = 0;
@@ -195,45 +195,63 @@ function checkCashRegister(price, cash, cid) {
     let changeArrTotal;
     const changeDue = cash - price;
     let changeStillDue = changeDue;
+    const round = (num) => +(Math.round(num + "e+2") + "e-2");
     const cidTotal = cid.reduce((total, money) => total + money[1], 0);
     const currencyMap = { 'ONE HUNDRED': 100, 'TWENTY': 20, 'TEN': 10, 'FIVE': 5, 'ONE': 1, 'QUARTER': .25, 'DIME': .10, 'NICKEL': .05, 'PENNY': .01 };
 
     if (changeDue == cidTotal) return { status: "CLOSED", change: cid.reverse() };
 
-    const round = (num) => +(Math.round(num + "e+2") + "e-2");
-
     for (let subArr of cidArr) {
         const currency = currencyMap[subArr[0]];
-        const currencyQty = subArr[1] / currency;
         const maxChangeQty = Math.floor(changeStillDue / currency);
-        const minChange = Math.min(maxChangeQty * currency, subArr[1]);
-        if (maxChangeQty > 0 && currencyQty > 0) {
-            changeStillDue = round(changeStillDue - minChange);
-            changeArr.push([subArr[0], minChange]);
+        const maxChange = Math.min(maxChangeQty * currency, subArr[1]);
+        if (maxChange > 0) {
+            changeStillDue = round(changeStillDue - maxChange);
+            changeArr.push([subArr[0], maxChange]);
         }
         changeArrTotal = round(changeArr.reduce((total, money) => total + money[1], 0));
     }
 
-    if (changeDue > cidTotal || changeArrTotal != changeDue) {
+    if (changeDue > cidTotal || changeArrTotal !== changeDue) {
         return { status: "INSUFFICIENT_FUNDS", change: [] };
     }
-
     return { status: "OPEN", change: changeArr };
 }
-// Next is cidArr.map(subArr => )
+
+// 4th, best
+function checkCashRegister(price, cash, cid) {
+    let cidArr = cid.reverse();
+    let changeTotal = 0;
+    const changeDue = cash - price;
+    let changeStillDue = changeDue;
+    const round = (num) => +(Math.round(num + "e+2") + "e-2");
+    const cidTotal = cid.reduce((total, money) => total + money[1], 0);
+    const currencyMap = { 'ONE HUNDRED': 100, 'TWENTY': 20, 'TEN': 10, 'FIVE': 5, 'ONE': 1, 'QUARTER': .25, 'DIME': .10, 'NICKEL': .05, 'PENNY': .01 };
+
+    if (changeDue == cidTotal) return { status: "CLOSED", change: cid.reverse() };
+
+    const changeArr = cidArr.map((subArr) => {
+        const currency = currencyMap[subArr[0]];
+        const maxChangeQty = Math.floor(changeStillDue / currency);
+        const maxChange = Math.min(maxChangeQty * currency, subArr[1]);
+        changeStillDue = round(changeStillDue - maxChange);
+        changeTotal = round(changeTotal + maxChange);
+        return [subArr[0], maxChange];
+    }).filter(subArr => subArr[1] !== 0);
+
+    return changeDue > cidTotal || changeTotal !== changeDue ? { status: "INSUFFICIENT_FUNDS", change: [] } : { status: "OPEN", change: changeArr };
+}
 
 console.log(checkCashRegister(3.26, 100, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]])); // {status: "OPEN", change: [["TWENTY", 60], ["TEN", 20], ["FIVE", 15], ["ONE", 1], ["QUARTER", 0.5], ["DIME", 0.2], ["PENNY", 0.04]]}
 console.log(checkCashRegister(19.5, 20, [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]])); // {status: "CLOSED", change: [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]}
 console.log(checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]])); // {status: "OPEN", change: [["QUARTER", 0.5]]}
 console.log(checkCashRegister(19.5, 20, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]])); //  {status: "INSUFFICIENT_FUNDS", change: []}
 
-// Syntax example .filter(subArr)
-let arr1 = [[1, 2, 3], [4, 5, 6]];
-let arr3 = arr1.filter((subArr) => subArr[2] < 4);
-console.log(arr3);// [ [ 1, 2, 3 ] ]
-
 // A rounding function from https://www.delftstack.com/howto/javascript/javascript-round-to-2-decimal-places/
 function roundToTwo(num) {
     return +(Math.round(num + "e+2") + "e-2");
 }
+// Or my ES6 version, the 2 can be changed to however many decimal places you need
+const round = (num) => +(Math.round(num + "e+2") + "e-2"); // Rounds to two decimal places
+
 console.log(roundToTwo(2.005));

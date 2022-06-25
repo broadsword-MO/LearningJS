@@ -1,5 +1,6 @@
 // ------------- from fCC Basic JavaScript -----------
 //   -------------- A 'for' loop ----------------
+// Multiplies the first n number of digits of the array
 function multiply(arr, n) {
     let product = 1;
     for (let i = 0; i < n; i++) {
@@ -11,9 +12,9 @@ function multiply(arr, n) {
     return product;
 }
 
-console.log(multiply([2, 4, 7, 9], 3));
+console.log(multiply([2, 4, 7, 9], 3)); // 56
 
-//   Which works the same as this recursion... somehow
+// Which works the same as this recursion... somehow
 function multiply(arr, n) {
     if (n <= 0) {
         return 1;
@@ -25,9 +26,18 @@ function multiply(arr, n) {
     }
 }
 
-console.log(multiply([2, 4, 7, 9], 3));
+console.log(multiply([2, 4, 7, 9], 3)); // 56
 
 // ---------------- An addition recursion -------------
+// Sums all numbers down to zero
+function recAdd(num) {
+    if (num <= 0) return 0;
+    else return num + recAdd(num - 1);
+}
+
+console.log(recAdd(5)); // 15
+
+// Sums the first n number of digits of the array
 function sum(arr, n) {
     if (n <= 0) {
         return 0;
@@ -36,7 +46,7 @@ function sum(arr, n) {
     }
 }
 
-console.log(sum([2, 4, 7, 9], 3));
+console.log(sum([2, 4, 7, 9], 3)); // 13
 
 // ---------------- Another recursion example -------------
 function revStr(str) {
@@ -68,7 +78,7 @@ function pow(x, n) {
     return result;
 }
 
-console.log('final = ' + pow(2, 3)); // 8
+console.log('final = ' + pow(2, 3)); // final = 8
 
 // ================== The same as this if/else ===================
 function pow(x, n) {
@@ -86,12 +96,21 @@ function pow(x, n) {
     }
 }
 
-console.log('final = ' + pow(2, 4)); // 16
+console.log('final = ' + pow(2, 4)); // final = 16
 
-// ================== The same as this ternary ===================
+// ================== Ternary recursive ===================
+// The same as this ternary
 function pow(x, n) {
     return (n == 1) ? x : (x * pow(x, n - 1));
 }
+console.log('final = ' + pow(2, 4)); // final = 16
+
+// Sum all odd Fibonacci numbers
+// The Fibonacci sequence, in which each number is the sum of the two preceding ones. Return the sum of all odd Fibonacci numbers that are less than or equal to num.
+
+//from fCC forum forkerino, a ternary recursive solution
+const sumFibs = (n, prev = 0, curr = 1, sum = 0) => curr > n ? sum : sumFibs(n, curr, prev + curr, sum + (curr % 2 && curr));
+
 
 // ================== from an fCC article on recursion ===================
 function randomUntilFive(result = 0, count = 0) {
@@ -124,11 +143,31 @@ function countup(n) {
     if (n < 1) {
         return [];
     } else {
-        const countArray = countup(n - 1);
-        countArray.push(n);
-        return countArray;
+        console.log(n); // 5, 4, 3, 2, 1
+        const countArr = countup(n - 1); // The function shortcircuits until this finishes
+        console.log(countArr); // [], [1], [1, 2], [1, 2, 3], [1, 2, 3, 4], [1, 2, 3, 4, 5]
+        console.log(n); // 1, 2, 3, 4, 5
+        countArr.push(n);
+        return countArr;
     }
 }
+// Or simplified
+function countup(n) {
+    if (n < 1) return [];
+    let arr = countup(n - 1);
+    arr.push(n);
+    return arr;
+}
+// A 'while loop' version that accomplishes the same
+function countup(n) {
+    let arr = [];
+    while (n > 0) {
+        arr.push(n);
+        n--;
+    }
+    return arr.reverse();
+}
+
 console.log(countup(5)); // [ 1, 2, 3, 4, 5 ]
 
 // Lesson exercise - Countdown function
@@ -155,9 +194,9 @@ function countBetween(m, n) {
         return myArray;
     }
 }
-console.log(countBetween(2, 5));
+console.log(countBetween(2, 5)); // [ 2, 3, 4, 5 ]
 
-// ================== A factorial recursion ===================
+// ================== Factorial recursion ===================
 var factorial = function (n) {
     if (n === 0) {
         return 1;
@@ -177,32 +216,71 @@ function factorialize(num) {
 
 console.log(factorialize(5)); // 120
 
-// Some more elaborate attempts of mine
-function factorialize(n) {
-    let result;
-    if (n < 1) {
-        return 0;
-    } else {
-        function factorial() {
-            if (n === 0) {
-                return 1;
-            } else {
-                result = n * factorial(n - 1);
-                return result;
+// ================== Nested recursion ===================
+// Sum all odd Fibonacci numbers
+// The Fibonacci sequence, in which each number is the sum of the two preceding ones. Return the sum of all odd Fibonacci numbers that are less than or equal to num.
+
+// from fCC forum johnlreavis
+/*The input ‘b’ is the number in the fibonacci sequence. Start calling the recursive function with 0 and 1, to get 1,1,2…
+Otherwise counter and while loop are the same as basic solution.*/
+function sumFibs(num) {
+    let oddsum = 0;
+    function fib(a, b) {
+        while (b <= num) {
+            if (b % 2 === 1) {
+                oddsum += b;
             }
+            return fib(b, a + b);
         }
-        return result;
+    }
+    fib(0, 1);
+    return oddsum;
+}
+
+console.log(sumFibs(10)); // 10
+console.log(sumFibs(20)); // 23
+
+// A factorial nested recursive of mine.
+function factorialize(n) {
+    if (n < 1) return 0;
+    function factorial(n) { // "n" parameter necessary here for recursive
+        if (n === 0) {
+            return 1;
+        } else {
+            return n * factorial(n - 1);
+        }
+    }
+    return factorial(n); // "n" parameter necessary here for recursive
+}
+
+console.log(factorialize(0)); // 0
+console.log(factorialize(1)); // 1
+console.log(factorialize(5)); // 120
+console.log(factorialize(20)); // 2432902008176640000
+
+// An UN-nested factorial recursive version of the same
+function factorialize(n) {
+    if (n < 1) return 0;
+    return factorial(n);
+}
+function factorial(n) {
+    if (n === 0) {
+        return 1;
+    } else {
+        return n * factorial(n - 1);
     }
 }
 
-console.log(factorialize(5));
+console.log(factorialize(0)); // 0
+console.log(factorialize(1)); // 1
+console.log(factorialize(5)); // 120
 
 // A working nested function for reference
 function foo(n) {
-    function bar() {
+    function bar() { // "n" parameter unnecessary here for non-recursive
         return 2 * n;
     }
-    return bar();
+    return bar(); // "n" parameter unnecessary here for non-recursive
 }
 console.log(foo(3)); // 6
 

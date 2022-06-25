@@ -10,6 +10,8 @@ Return {status: "CLOSED", change: [...]} with cash-in-drawer as the value for th
 
 Otherwise, return {status: "OPEN", change: [...]}, with the change due in coins and bills, sorted in highest to lowest order, as the value of the change key. */
 
+const { number } = require("prop-types");
+
 // Initial, doesn't quite work all the way
 function checkCashRegister(price, cash, cid) {
     let cidArr = cid.reverse();
@@ -255,3 +257,4 @@ function roundToTwo(num) {
 const round = (num) => +(Math.round(num + "e+2") + "e-2"); // Rounds to two decimal places
 
 console.log(roundToTwo(2.005));
+

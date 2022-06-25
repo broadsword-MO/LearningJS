@@ -209,7 +209,7 @@ Map takes up to 2 parameters:
     /* ... */
 }, thisArg);
 
-// Parantheses are needed around curly brackets to return an object. */
+// Parentheses are needed around curly brackets to return an object. */
 const users = [
     { name: "John", age: 34 },
     { name: "Amy", age: 20 },
@@ -333,13 +333,14 @@ const watchList = [
 ];
 
 // Using .map() instead of the 'for loop' used below
-// Parantheses are needed around curly braces to return an object.
+// Parentheses are needed around curly braces to return an object.
 const ratings = watchList.map((movie) => ({
     title: movie.Title,
     rating: movie.imdbRating
 }));
 // Or fCC using parameter destructuring
-// const ratings = watchList.map(({ Title: title, imdbRating: rating }) => ({title, rating}));
+const ratings = watchList.map(({ Title: title, imdbRating: rating }) => ({title, rating}));
+
 console.log(ratings); /* [
     { title: 'Inception', rating: '8.8' },
     { title: 'Interstellar', rating: '8.6' },
@@ -373,7 +374,7 @@ const new_s = s.myMap(function (item) {
 });
 console.log(new_s);
 
-// ================== Use the filter Method to Extract Data from an Array ===================
+// ================== Use the .filter Method to Extract Data from an Array ===================
 /* .filter() calls a function on each element of an array and returns a new array containing only the elements for which that function returns true.
 Filter takes up to 2 parameters:
     1. The first is a function, which calls a defined callback function on each element of an array, takes up to three arguments and returns an array that contains the results. 

@@ -48,3 +48,8 @@ var factorial = function (n) {
 }
 console.log(factorial(5)); // 120
 
+
+// The Fibonacci sequence, in which each number is the sum of the two preceding ones. Return the sum of all odd Fibonacci numbers that are less than or equal to num.
+
+//from fCC forum forkerino, a ternary recursive solution
+const sumFibs = (n, prev = 0, curr = 1, sum = 0) => curr > n ? sum : sumFibs(n, curr, prev + curr, sum + (curr % 2 && curr));

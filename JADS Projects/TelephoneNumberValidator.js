@@ -4,7 +4,7 @@ function telephoneCheck(str) {
     /* Explanation
     This returns true or false for either:
         1. Start of pattern, 10 digits, end of pattern... Or
-        2. Start pattern, an optional character group with a 1 and an optional space, a character group with an escaped L paran, 3 digits and an escaped R paran OR just 3 digits, an optional space or dash, 3 digits, a space or dash, 4 digits, end pattern */
+        2. Start pattern, an optional character group with a 1 and an optional space, a character group with an escaped L paren, 3 digits and an escaped R paren OR just 3 digits, an optional space or dash, 3 digits, a space or dash, 4 digits, end pattern */
     return /^\d{10}$|^(1 ?)?(\(\d{3}\)|\d{3})[ -]?\d{3}[ -]\d{4}$/.test(str);
 }
 

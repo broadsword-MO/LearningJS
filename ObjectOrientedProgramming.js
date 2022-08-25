@@ -365,10 +365,13 @@ function Bird() {
     // Or fCC version using the ES6 arrow function
     let weight = 15; // a 'private' variable
     this.getWeight = () => weight;
+    this.setWeight = (lbs) => weight = lbs; // I added
 }
 let ducky = new Bird();
 console.log(ducky.getHatchedEggCount()); // 10
 console.log(ducky.getWeight()); // 15
+console.log(ducky.setWeight(12));
+console.log(ducky.getWeight()); // 12
 
 // In JavaScript, a function always has access to the context in which it was created. This is called closure.
 

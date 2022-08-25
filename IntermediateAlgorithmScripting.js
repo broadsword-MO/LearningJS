@@ -10,17 +10,17 @@ function sumAll(arr) {
     return sum;
 }
 
-console.log(sumAll([4, 1]));
+console.log(sumAll([4, 1])); // 10
 
 // fCC recursive solution
-function sumAll(arr) {
+function sumsAll(arr) {
     const [first, last] = [...arr].sort((a, b) => a - b);
     return first !== last
-        ? first + sumAll([first + 1, last])
+        ? first + sumsAll([first + 1, last])
         : first;
 }
 
-sumAll([1, 4]);
+console.log(sumsAll([1, 4])); // 10
 
 //   ================== Diff Two Arrays ===================
 // Compare two arrays and return a new array with any items only found in one of the two given arrays, but not both. In other words, return the symmetric difference of the two arrays.
@@ -43,24 +43,25 @@ function diffArray(arr1, arr2) {
 console.log(diffArray([1, 2, 3, 5], [1, 2, 3, 4, 5])); // [ 4 ]
 console.log(diffArray(["diorite", "andesite", "grass", "dirt", "pink wool", "dead shrub"], ["diorite", "George", "andesite", "grass", "dirt", "dead shrub"])); // [ 'pink wool', 'George' ]
 
-// fCC declaritive solution
-function diffArray(arr1, arr2) {
+// fCC declarative solution
+function diffArr(arr1, arr2) {
     return arr1
         .concat(arr2)
         .filter(item => !arr1.includes(item) || !arr2.includes(item));
 }
 
-console.log(diffArray([1, 2, 3, 5, 7], [1, 2, 3, 4, 5])); // [ 7, 4 ]
+console.log(diffArr([1, 2, 3, 5, 7], [1, 2, 3, 4, 5])); // [ 7, 4 ]
 
 // And from fCC forum belcurv
-function diffArray(arr1, arr2) {
+function diffArra(arr1, arr2) {
     // filter each array for the absent members
     var filteredArr1 = arr1.filter((el) => arr2.indexOf(el) === -1),
-        filteredArr2 = arr2.filter((el) => arr1.indexOf(el) === -1);
-
+    filteredArr2 = arr2.filter((el) => arr1.indexOf(el) === -1);
+    
     // merge both sets of absent members
     return filteredArr1.concat(filteredArr2);
 }
+console.log(diffArra([1, 2, 3, 5, 7], [1, 2, 3, 4, 5])); // [ 7, 4 ]
 
 // ================== Seek and Destroy ===================
 /* You will be provided with an initial array (the first argument in the destroyer function), followed by one or more arguments. Remove all elements from the initial array that are of the same value as these arguments.
@@ -839,7 +840,7 @@ const Person = function (firstAndLast) {
     }
 }
 // fCC (I updated, mostly for ES6 arrow function style)
-const Person = function (firstAndLast) {
+const person = function (firstAndLast) {
     let fullName = firstAndLast;
     // Getters
     this.getFirstName = () => fullName.split(" ")[0];
@@ -851,7 +852,7 @@ const Person = function (firstAndLast) {
     this.setFullName = (firstAndLast) => fullName = firstAndLast;
 };
 
-const bob = new Person('Bob Ross');
+const bob = new person('Bob Ross');
 
 console.log(bob);
 console.log(bob.getFullName()); // Bob Ross
@@ -867,14 +868,17 @@ bob.setFirstName("Haskell");
 console.log(bob.getFullName()); // Haskell Ross
 
 // ================== Map the Debris ===================
-// 
+/* Return a new array that transforms the elements' average altitude into their orbital periods (in seconds).
+The array will contain objects in the format {name: 'name', avgAlt: avgAlt}.
+The values should be rounded to the nearest whole number. The body being orbited is Earth.
+The radius of the earth is 6367.4447 kilometers, and the GM value of earth is 398600.4418 km3s-2. */
 // Mine
 function orbitalPeriod(arr) {
     const GM = 398600.4418; // Gravitational mass?
     const earthRadius = 6367.4447; // In kilometers
     return arr.map((satelite) => ({
         name: satelite.name,
-        orbitalPeriod: Math.round((2 * Math.PI) * Math.sqrt((satelite.avgAlt + earthRadius) ** 3 / GM)) // Calculates the time in seconds. '** 3' is the same as Math.pow( ,3)
+        orbitalPeriod: Math.round((2 * Math.PI) * Math.sqrt((satelite.avgAlt + earthRadius) ** 3 / GM)) // Calculates the time in seconds. '** 3' is the same as Math.pow(num, 3)
     }));
 }
 // fCC, which uses some variables inside of .map()
@@ -889,7 +893,8 @@ function orbitalPeriod(arr) {
 }
 
 console.log(orbitalPeriod([{ name: "sputnik", avgAlt: 35873.5553 }])); // [ { name: 'sputnik', orbitalPeriod: 86400 } ]
-console.log(orbitalPeriod([{ name: "iss", avgAlt: 413.6 }, { name: "hubble", avgAlt: 556.7 }, { name: "moon", avgAlt: 378632.553 }])); /* [
+console.log(orbitalPeriod([{ name: "iss", avgAlt: 413.6 }, { name: "hubble", avgAlt: 556.7 }, { name: "moon", avgAlt: 378632.553 }]));
+ /* [
     { name: 'iss', orbitalPeriod: 5557 },
     { name: 'hubble', orbitalPeriod: 5734 },
     { name: 'moon', orbitalPeriod: 2377399 }
@@ -899,7 +904,7 @@ console.log(orbitalPeriod([{ name: "iss", avgAlt: 413.6 }, { name: "hubble", avg
 function calc() {
     const GM = 398600.4418; // Earth's GM (the standard gravitational parameter)
     const earthRadius = 6367.4447; // in kilometers
-    let avgAlt = 35873.5553; // Sputnik satelite altitude above the earth
+    let avgAlt = 35873.5553; // Sputnik satellite altitude above the earth
     let a = earthRadius + avgAlt; // 'a' is the orbit's semi-major axis
     // Kepler's Third Law: (orbital period:)T = 2 * pi * the square root of ('a' to the 3rd power / GM)
     let time = Math.round(2 * Math.PI * Math.sqrt(a ** 3 / GM));

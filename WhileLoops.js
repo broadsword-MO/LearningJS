@@ -1,3 +1,6 @@
+/* To stop a while loop from within, use the reserved keyword 'break' to jump out of the loop, terminating further execution of the instructions inside the loop.
+By default, Javascript terminates only the loop in which it finds the keyword 'break', so if that keyword occurs inside a nested loop, it will not prevent the outer loops from continuing.
+*/
 // ================== Repeat a String Repeat a String ===================
 // Mine
 function repeatStringNumTimes(str, num) {
@@ -65,14 +68,13 @@ function copyMachine(arr, num) {
     return newArr;
 }
 // Array and number of times to copy into empty array
-console.log(copyMachine([true, false, true], 2));
+console.log(copyMachine([true, false, true], 2)); // [ [ true, false, true ], [ true, false, true ] ]
 
 // Sum all odd Fibonacci numbers
 // The Fibonacci sequence, in which each number is the sum of the two preceding ones. Return the sum of all odd Fibonacci numbers that are less than or equal to num.
 
 // from fCC forum johnlreavis
-/*The input ‘b’ is the number in the fibonacci sequence. Start calling the recursive function with 0 and 1, to get 1,1,2…
-Otherwise counter and while loop are the same as basic solution.*/
+// The input ‘b’ is the number in the fibonacci sequence. Start calling the recursive function with 0 and 1, to get 1,1,2…
 function sumFibs(num) {
     let oddsum = 0;
     function fib(a, b) {
@@ -89,3 +91,13 @@ function sumFibs(num) {
 
 console.log(sumFibs(10)); // 10
 console.log(sumFibs(20)); // 23
+
+// ================== A "do while" loop ===================
+/* 
+A Javascript do-while loop always starts with the keyword do followed by a code block. The keyword while, and an end condition in parentheses, appear after the code block.
+Since a do-while loop does not evaluate its end condition until after it executes its code block, the instructions inside a do-while loop always execute at least once. This is in contrast to a simple while loop, which skips its code block immediately if its end condition is met.
+The do-while loop looks like an inverted version of the while loop, like this: */
+
+do {
+    ... instructions ...
+} while (end condition);

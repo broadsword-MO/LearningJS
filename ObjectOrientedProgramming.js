@@ -12,6 +12,35 @@ let dog = {
 };
 console.log(Object.keys(dog)); // [ 'name', 'numLegs' ]
 
+// And
+let users = {
+    Alan: {
+        age: 27,
+        online: false,
+    },
+    Jeff: {
+        age: 32,
+        online: true,
+    },
+    Sarah: {
+        age: 48,
+        online: false,
+    },
+    Ryan: {
+        age: 19,
+        online: true,
+    },
+};
+
+function getArrayOfUsers(obj) {
+    // Only change code below this line
+    return Object.keys(obj);
+    // Only change code above this line
+}
+
+console.log(getArrayOfUsers(users)); // [ 'Alan', 'Jeff', 'Sarah', 'Ryan' ]
+
+
 // ================== Object.values() ===================
 // Returns an array of the object's keys' values
 let dog = {
@@ -21,8 +50,58 @@ let dog = {
 console.log(dog.name); // Spot
 console.log(Object.values(dog)); // [ 'Spot', 4 ]
 
+// ================== Update a record collection ===================
+// Setup
+const recordCollection = {
+    2548: {
+        albumTitle: "Slippery When Wet",
+        artist: "Bon Jovi",
+        tracks: ["Let It Rock", "You Give Love a Bad Name"],
+    },
+    2468: {
+        albumTitle: "1999",
+        artist: "Prince",
+        tracks: ["1999", "Little Red Corvette"],
+    },
+    1245: {
+        artist: "Robert Palmer",
+        tracks: [],
+    },
+    5439: {
+        albumTitle: "ABBA Gold",
+    },
+};
+
+// Only change code below this line
+function updateRecords(records, id, prop, value) {
+    if (prop != "tracks" && value != "") {
+        records[id][prop] = value;
+    } else if (
+        prop == "tracks" &&
+        records[id].hasOwnProperty("tracks") == false
+    ) {
+        records[id][prop] = [value];
+    } else if (prop == "tracks" && value != "") {
+        records[id][prop].push(value);
+    } else if ((value = "")) {
+        delete records[id][prop];
+    }
+    return records;
+}
+
+updateRecords(recordCollection, 5439, "artist", "ABBA");
+updateRecords(recordCollection, 5439, "tracks", "This and that");
+updateRecords(recordCollection, 5439, "tracks", "The other");
+updateRecords(recordCollection, 5439, "awards", "yellow");
+updateRecords(recordCollection, 5439, "234", ["multiple"]);
+updateRecords(recordCollection, 5439, "11", ["division"]);
+updateRecords(recordCollection, 5439, "wonky", "");
+
+console.log(recordCollection);
+
+
 // ================== Create a Method on an Object ===================
-// Methods are properties that are functions. An objects function must be initialised within the object itself.
+// Methods are properties that are functions. An objects function must be initialized within the object itself.
 let dog = {
     name: "Spot",
     numLegs: 4,
@@ -441,7 +520,7 @@ const hero2 = {
 };
 const hero3 = {
     name: 'Joker',
-    realName: 'Wuce Brayne'
+    realName: 'Bruce Wayne'
 };
 console.log(shallowEqual(hero1, hero2)); // => true
 console.log(shallowEqual(hero1, hero3)); // => false
